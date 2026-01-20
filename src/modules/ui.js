@@ -13,7 +13,11 @@ export const UI = {
             lineCount: document.getElementById('line-count'),
             charCount: document.getElementById('char-count'),
             overviewTab: document.getElementById('tab-overview'),
-            aiSection: document.getElementById('ai-section')
+            aiSection: document.getElementById('ai-section'),
+            mineCases: document.getElementById('mine-cases'),
+            mineVariants: document.getElementById('mine-variants'),
+            miningLogBody: document.getElementById('mining-log-body'),
+            logInput: document.getElementById('log-input')
         };
     }
 };
@@ -154,4 +158,36 @@ export function updateNotation(state) {
     if (elements.charCount) {
         elements.charCount.textContent = `${xml.length} Zeichen`;
     }
+}
+
+export function updateMiningResults(miningData) {
+    const elements = UI.elements;
+    if (!elements.miningLogBody) return;
+
+    const { metadata, graph } = miningData;
+
+    // Update stats
+    if (elements.mineCases) elements.mineCases.textContent = metadata.caseCount || 0;
+    if (elements.mineVariants) elements.mineVariants.textContent = metadata.variants || 0;
+
+    // Build frequency table from DFG nodes/edges
+    elements.miningLogBody.innerHTML = '';
+
+    // Sort activities by occurrence (weight of incoming edges)
+    const activities = Array.from(graph.nodes.values()).map(node => {
+        const frequency = Array.from(graph.edges.values())
+            .filter(e => e.target === node.id)
+            .reduce((sum, e) => sum + (e.weight || 0), 0);
+        return { name: node.name, frequency };
+    }).sort((a, b) => b.frequency - a.frequency);
+
+    activities.forEach(act => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${act.name}</td>
+            <td>${act.frequency}</td>
+            <td>-</td>
+        `;
+        elements.miningLogBody.appendChild(row);
+    });
 }

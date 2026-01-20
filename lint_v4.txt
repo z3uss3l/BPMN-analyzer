@@ -1,0 +1,10 @@
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\main.js: line 70, col 13, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\main.js: line 203, col 21, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\parser.js: line 204, col 21, Error - '_id' is assigned a value but never used. (no-unused-vars)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\ui.js: line 17, col 5, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\ui.js: line 25, col 5, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\ui.js: line 29, col 5, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\ui.js: line 33, col 9, Warning - Unexpected console statement. (no-console)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\ui.js: line 59, col 5, Warning - Unexpected console statement. (no-console)
+
+8 problems

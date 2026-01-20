@@ -1,0 +1,3 @@
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\src\modules\parser.js: line 204, col 21, Error - '_id' is assigned a value but never used. (no-unused-vars)
+
+1 problem

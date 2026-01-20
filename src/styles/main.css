@@ -1498,3 +1498,62 @@ a:hover {
 [data-theme="dark"] .rec-action {
   background: rgba(0, 0, 0, 0.2);
 }
+
+/* Mining Table & Results */
+.mining-results {
+  padding: var(--space-md);
+}
+
+.mining-stats {
+  display: flex;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.stat-mini {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-mini .label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.stat-mini span:not(.label) {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.mining-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-md);
+}
+
+.mining-table th,
+.mining-table td {
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.mining-table th {
+  background: var(--bg-secondary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+}
+
+.mining-table tr:hover {
+  background: var(--bg-tertiary);
+}
+
+.mining-options {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}

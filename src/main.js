@@ -6,6 +6,9 @@ import { ExportManager } from '@modules/exporter';
 import { Validator } from '@modules/validator';
 import { AIOptimizer } from '@modules/ai-optimizer';
 import { VisualizationEngine } from '@modules/visualization';
+import { MiningEngine } from '@modules/mining-engine';
+import { LogCollector } from '@utils/log-collector';
+import { updateMiningResults } from '@modules/ui';
 
 // App State Management
 class BPMNApp {
@@ -24,6 +27,8 @@ class BPMNApp {
         this.validator = new Validator();
         this.aiOptimizer = new AIOptimizer();
         this.vizEngine = new VisualizationEngine();
+        this.miningEngine = new MiningEngine();
+        this.logCollector = new LogCollector();
 
         this.init();
     }
@@ -31,6 +36,7 @@ class BPMNApp {
     async init() {
         await initializeUI(this);
         this.setupEventListeners();
+        this.setupProgressListeners();
         this.loadSampleProcess();
 
         // Service Worker for PWA
@@ -262,37 +268,133 @@ class BPMNApp {
             });
         });
 
-        // Progress and error events
+        // Mining Event Listeners
+        const mineCsvBtn = document.getElementById('mine-csv-btn');
+        const mineNetworkBtn = document.getElementById('mine-network-btn');
+        const mineSystemBtn = document.getElementById('mine-system-btn');
+        const logInput = document.getElementById('log-input');
+
+        if (mineCsvBtn && logInput) {
+            mineCsvBtn.addEventListener('click', () => {
+                logInput.setAttribute('data-type', 'generic');
+                logInput.click();
+            });
+        }
+
+        if (mineNetworkBtn && logInput) {
+            mineNetworkBtn.addEventListener('click', () => {
+                logInput.setAttribute('data-type', 'har');
+                logInput.click();
+            });
+        }
+
+        if (logInput) {
+            logInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    await this.handleLogUpload(file);
+                }
+            });
+        }
+
+        if (mineSystemBtn) {
+            mineSystemBtn.addEventListener('click', () => this.handleSystemMining());
+        }
+    }
+
+    async handleLogUpload(file) {
+        try {
+            this.showProgress(20, 'Lade Log-Datei...');
+            const events = await this.logCollector.parse(file);
+
+            this.showProgress(50, 'Analysiere Prozess-Traces...');
+            const miningResult = await this.miningEngine.discover(events);
+
+            this.showProgress(80, 'Visualisiere entdeckten Prozess...');
+
+            this.state.currentProcess = {
+                xml: '<!-- Discovered Process -->',
+                graph: miningResult.graph
+            };
+
+            const analysisResults = {
+                basic: {
+                    elementCount: miningResult.graph.nodes.size,
+                    taskCount: Array.from(miningResult.graph.nodes.values()).filter(n => n.type === 'task').length,
+                    pathCount: miningResult.metadata.variants
+                },
+                complexity: { mcCabe: miningResult.graph.edges.size - miningResult.graph.nodes.size + 2 },
+                performance: { estimatedDuration: 0, bottlenecks: [], resourceUtilization: 0 },
+                compliance: { overallScore: 0, failedChecks: 0 }
+            };
+
+            this.state.analysisResults = analysisResults;
+
+            await this.vizEngine.createVisualization(this.state.currentProcess);
+            updateDashboard(this.state);
+            updateMiningResults(miningResult);
+
+            this.showProgress(100, 'Process Mining abgeschlossen');
+            setTimeout(() => this.showProgress(0), 1500);
+            this.showNotification('Prozess erfolgreich aus Log extrahiert', 'success');
+        } catch (error) {
+            // console.error('Mining error:', error);
+            this.showError(`Mining fehlgeschlagen: ${error.message}`);
+            this.showProgress(0);
+        }
+    }
+
+    async handleSystemMining() {
+        try {
+            this.showProgress(30, 'Sammle Systeminformationen...');
+
+            const events = [
+                { caseId: 'system', activity: `OS: ${navigator.platform}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Browser: ${navigator.userAgent.includes('Firefox') ? 'Firefox' : 'Chrome/Edge'}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Language: ${navigator.language}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Screen: ${window.screen.width}x${window.screen.height}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Cores: ${navigator.hardwareConcurrency || 'unknown'}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Battery: ${navigator.getBattery ? 'available' : 'unknown'}`, timestamp: new Date().toISOString() },
+                { caseId: 'system', activity: `Cookies: ${navigator.cookieEnabled ? 'Enabled' : 'Disabled'}`, timestamp: new Date().toISOString() }
+            ];
+
+            const miningResult = await this.miningEngine.discover(events);
+
+            this.state.currentProcess = {
+                xml: '<!-- System Info Process -->',
+                graph: miningResult.graph
+            };
+
+            const analysisResults = {
+                basic: {
+                    elementCount: miningResult.graph.nodes.size,
+                    taskCount: miningResult.graph.nodes.size,
+                    pathCount: 1
+                },
+                complexity: { mcCabe: 1 },
+                performance: { estimatedDuration: 0, bottlenecks: [], resourceUtilization: 0 },
+                compliance: { overallScore: 100, failedChecks: 0 }
+            };
+
+            this.state.analysisResults = analysisResults;
+
+            await this.vizEngine.createVisualization(this.state.currentProcess);
+            updateDashboard(this.state);
+            updateMiningResults(miningResult);
+
+            this.showProgress(100, 'System-Mining abgeschlossen');
+            setTimeout(() => this.showProgress(0), 1500);
+        } catch (error) {
+            this.showError(`System-Mining fehlgeschlagen: ${error.message}`);
+            this.showProgress(0);
+        }
+    }
+
+    // Progress and error events
+    setupProgressListeners() {
         window.addEventListener('progress', (e) => {
             const { percent, message } = e.detail;
-            const progressContainer = document.getElementById('progress-container');
-            const progressFill = document.getElementById('progress-fill');
-            const progressPercent = document.getElementById('progress-percent');
-            const progressSteps = document.getElementById('progress-steps');
-
-            if (progressContainer) {
-                progressContainer.style.display = 'block';
-            }
-
-            if (progressFill) {
-                progressFill.style.width = `${percent}%`;
-            }
-
-            if (progressPercent) {
-                progressPercent.textContent = `${percent}%`;
-            }
-
-            if (progressSteps) {
-                progressSteps.textContent = message;
-            }
-
-            if (percent >= 100) {
-                setTimeout(() => {
-                    if (progressContainer) {
-                        progressContainer.style.display = 'none';
-                    }
-                }, 2000);
-            }
+            this.showProgress(percent, message);
         });
 
         window.addEventListener('error', (e) => {

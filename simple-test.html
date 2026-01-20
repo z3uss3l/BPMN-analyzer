@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px; margin: 5px; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Simple Debug Test</h1>
+    
+    <div class="debug">
+        <h3>1. Basic JavaScript Test</h3>
+        <button onclick="alert('Direct onclick works!')">Test Direct onclick</button>
+        <button id="test1">Test addEventListener</button>
+        <button id="test2">Test Query Selector</button>
+    </div>
+    
+    <div class="debug">
+        <h3>2. Console Test</h3>
+        <button onclick="console.log('Console test clicked'); logMessage('Console test clicked')">Test Console</button>
+        <button onclick="throw new Error('Test error')">Test Error</button>
+    </div>
+    
+    <div class="debug">
+        <h3>3. Module Test</h3>
+        <button onclick="testModule()">Test Module Loading</button>
+        <div id="module-result"></div>
+    </div>
+    
+    <div class="debug">
+        <h3>4. Event Log</h3>
+        <div id="log" style="background: #000; color: #0f0; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        function logMessage(msg) {
+            const log = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `[${time}] ${msg}<br>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Test 1: Basic event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            logMessage('✅ DOM Content Loaded');
+            
+            const test1 = document.getElementById('test1');
+            if (test1) {
+                test1.addEventListener('click', function() {
+                    logMessage('✅ addEventListener works!');
+                    alert('addEventListener works!');
+                });
+                logMessage('✅ test1 event listener added');
+            }
+            
+            const test2 = document.querySelector('#test2');
+            if (test2) {
+                test2.addEventListener('click', function() {
+                    logMessage('✅ querySelector works!');
+                    alert('querySelector works!');
+                });
+                logMessage('✅ test2 event listener added');
+            }
+        });
+
+        // Test 2: Module loading
+        function testModule() {
+            logMessage('🧪 Testing module loading...');
+            
+            try {
+                // Test if we can import CSS
+                const cssLink = document.createElement('link');
+                cssLink.rel = 'stylesheet';
+                cssLink.href = './src/styles/main.css';
+                document.head.appendChild(cssLink);
+                logMessage('✅ CSS linked successfully');
+                
+                // Test if we can load main.js
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = './src/main.js';
+                
+                script.onload = function() {
+                    logMessage('✅ main.js loaded successfully');
+                    document.getElementById('module-result').innerHTML = '<span style="color: green">✅ Module loaded</span>';
+                };
+                
+                script.onerror = function(error) {
+                    logMessage('❌ main.js failed to load: ' + error);
+                    document.getElementById('module-result').innerHTML = '<span style="color: red">❌ Module failed</span>';
+                };
+                
+                document.head.appendChild(script);
+                logMessage('📝 Attempting to load main.js...');
+                
+            } catch (error) {
+                logMessage('❌ Module test failed: ' + error.message);
+            }
+        }
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            logMessage('🚨 Global error: ' + e.message);
+        });
+
+        // Log initial state
+        logMessage('🚀 Simple debug page loaded');
+        logMessage('📝 Browser: ' + navigator.userAgent);
+        logMessage('🌐 URL: ' + window.location.href);
+    </script>
+</body>
+</html>

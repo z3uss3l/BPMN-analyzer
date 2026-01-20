@@ -104,6 +104,31 @@
                 </div>
             </section>
 
+            <!-- Mining Section -->
+            <section id="mining-section" class="card">
+                <div class="section-header">
+                    <h2>
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13,10V12H15V13H13V15H12V13H10V12H12V10H13Z" />
+                        </svg>
+                        Process Mining (Log-Analyse)
+                    </h2>
+                </div>
+                <div class="mining-options">
+                    <button id="mine-csv-btn" class="btn btn-outline">
+                        CSV/JSON Log hochladen
+                    </button>
+                    <button id="mine-network-btn" class="btn btn-outline">
+                        Netzwerk-Trace (HAR)
+                    </button>
+                    <button id="mine-system-btn" class="btn btn-primary">
+                        System-Info extrahieren
+                    </button>
+                </div>
+                <input type="file" id="log-input" accept=".csv,.json,.har" style="display: none;">
+            </section>
+
             <!-- Dashboard Section -->
             <section id="dashboard-section" class="card" style="display: none;">
                 <div class="section-header">
@@ -171,6 +196,12 @@
                         </svg>
                         Visualisierung
                     </button>
+                    <button class="tab-btn" data-tab="mining">
+                        <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z" />
+                        </svg>
+                        Mining-Daten
+                    </button>
                 </div>
 
                 <!-- Tab Contents -->
@@ -217,6 +248,33 @@
                                 BPMN Visualisierung wird hier angezeigt...
                             </p>
                         </div>
+                    </div>
+                </div>
+
+                <div id="tab-mining" class="tab-content">
+                    <div class="mining-results">
+                        <div class="mining-stats">
+                            <div class="stat-mini">
+                                <span class="label">Fälle:</span>
+                                <span id="mine-cases">0</span>
+                            </div>
+                            <div class="stat-mini">
+                                <span class="label">Varianten:</span>
+                                <span id="mine-variants">0</span>
+                            </div>
+                        </div>
+                        <table class="mining-table">
+                            <thead>
+                                <tr>
+                                    <th>Aktivität</th>
+                                    <th>Häufigkeit</th>
+                                    <th>Durchschn. Dauer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mining-log-body">
+                                <!-- Wird dynamisch gefüllt -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>

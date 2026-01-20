@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; }
+        button { background: #007bff; color: white; padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { background: #e9ecef; padding: 10px; margin: 10px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Minimal Button Test</h1>
+        
+        <button onclick="test1()">Test 1: Direct Function</button>
+        <button id="btn2">Test 2: Event Listener</button>
+        <button id="btn3">Test 3: Query Selector</button>
+        
+        <div class="result" id="result">
+            <strong>Results:</strong><br>
+            Click buttons above...
+        </div>
+    </div>
+
+    <script>
+        function test1() {
+            document.getElementById('result').innerHTML += '<br>✅ Test 1: Direct onclick works!';
+            console.log('Test 1 clicked');
+        }
+
+        // Wait for DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            // Test 2: getElementById
+            const btn2 = document.getElementById('btn2');
+            if (btn2) {
+                btn2.addEventListener('click', function() {
+                    document.getElementById('result').innerHTML += '<br>✅ Test 2: getElementById + addEventListener works!';
+                    console.log('Test 2 clicked');
+                });
+            }
+            
+            // Test 3: querySelector
+            const btn3 = document.querySelector('#btn3');
+            if (btn3) {
+                btn3.addEventListener('click', function() {
+                    document.getElementById('result').innerHTML += '<br>✅ Test 3: querySelector + addEventListener works!';
+                    console.log('Test 3 clicked');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

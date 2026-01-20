@@ -1,0 +1,11 @@
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 5, col 1, Error - 'describe' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 8, col 5, Error - 'beforeEach' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 12, col 5, Error - 'test' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 15, col 9, Error - 'expect' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 16, col 9, Error - 'expect' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 17, col 9, Error - 'expect' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 20, col 5, Error - 'test' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 22, col 9, Error - 'expect' is not defined. (no-undef)
+C:\Users\jonas\Documents\GitHub\bpmn_tool\bpmn-analyzer-pro\tests\unit\example.test.js: line 23, col 9, Error - 'expect' is not defined. (no-undef)
+
+9 problems
