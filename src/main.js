@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { initializeUI, updateDashboard } from '@modules/ui';
+import { UI, initializeUI, updateDashboard } from '@modules/ui';
 import { BPMNParser } from '@modules/parser';
 import { AnalysisEngine } from '@modules/analyzer';
 import { ExportManager } from '@modules/exporter';
