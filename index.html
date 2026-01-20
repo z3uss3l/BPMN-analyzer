@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional BPMN Analysis Tool mit ISO 9001 Compliance, Process Mining und Optimierung">
+    <meta name="keywords" content="BPMN, ISO 9001, Prozessanalyse, Business Process, Optimization">
+    <meta name="author" content="Jonas Zeußel">
+    <title>BPMN Pro Analyzer | Prozessanalyse & ISO 9001 Compliance</title>
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="BPMN Pro Analyzer">
+    <meta property="og:description" content="Professional Process Analysis & ISO 9001 Compliance Tool">
+    <meta property="og:type" content="website">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/src/assets/icon.svg">
+    <link rel="apple-touch-icon" href="/src/assets/apple-touch-icon.png">
+    
+    <!-- PWA Service Worker (wird von Webpack injiziert) -->
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                    </svg>
+                    <h1>BPMN Pro Analyzer</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="btn-icon" aria-label="Theme wechseln">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6Z"/>
+                        </svg>
+                    </button>
+                    <button id="help-btn" class="btn-icon" aria-label="Hilfe">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="subtitle">
+                <span>BPMN 2.0.2 • ISO 9001:2015 • Process Mining • KI-Optimierung</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Upload Section -->
+            <section class="section-upload card" data-aos="fade-up">
+                <div class="section-header">
+                    <h2><svg class="icon"><use xlink:href="#icon-upload"></use></svg> Prozess Import</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary btn-sm" id="toggle-advanced">
+                            <svg width="16" height="16"><use xlink:href="#icon-settings"></use></svg>
+                            Erweitert
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="upload-zone" id="drop-zone">
+                    <svg class="upload-icon"><use xlink:href="#icon-cloud"></use></svg>
+                    <p>BPMN-Datei hier ablegen oder</p>
+                    <label class="btn btn-primary">
+                        <input type="file" id="file-input" accept=".bpmn,.xml,.bpmn2,.bpm" hidden>
+                        Datei auswählen
+                    </label>
+                    <p class="upload-hint">Unterstützt: BPMN 2.0.2, Camunda, Activiti, Flowable, Signavio</p>
+                </div>
+
+                <div class="advanced-options" id="advanced-options" style="display: none;">
+                    <div class="form-group">
+                        <label>Parsing-Optionen</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox">
+                                <input type="checkbox" id="opt-validate" checked>
+                                <span>Validierung aktivieren</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="opt-normalize" checked>
+                                <span>Vendor-Formate normalisieren</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="opt-extract-docs">
+                                <span>Dokumentation extrahieren</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-container" id="progress-container" style="display: none;">
+                    <div class="progress-header">
+                        <span>Analysiere Prozess...</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-steps" id="progress-steps"></div>
+                </div>
+            </section>
+
+            <!-- Text Notation -->
+            <section class="section-notation card" data-aos="fade-up" data-aos-delay="100">
+                <div class="section-header">
+                    <h2><svg class="icon"><use xlink:href="#icon-text"></use></svg> Textuelle Notation</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-icon" id="copy-notation" title="Kopieren">
+                            <svg width="16" height="16"><use xlink:href="#icon-copy"></use></svg>
+                        </button>
+                        <button class="btn btn-icon" id="export-notation" title="Exportieren">
+                            <svg width="16" height="16"><use xlink:href="#icon-download"></use></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <textarea id="notation-output" readonly placeholder="Hier erscheint die strukturierte Prozessbeschreibung..."></textarea>
+                    <div class="code-info">
+                        <span id="line-count">0 Zeilen</span>
+                        <span id="char-count">0 Zeichen</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analysis Dashboard -->
+            <section class="section-dashboard card full-width" id="dashboard-section" style="display: none;">
+                <div class="dashboard-header">
+                    <h2><svg class="icon"><use xlink:href="#icon-analytics"></use></svg> Prozess-Dashboard</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="stat-elements">0</span>
+                            <span class="stat-label">Elemente</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="stat-tasks">0</span>
+                            <span class="stat-label">Tasks</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="stat-paths">0</span>
+                            <span class="stat-label">Pfade</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="stat-iso">0%</span>
+                            <span class="stat-label">ISO 9001</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <nav class="dashboard-tabs" id="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="overview">
+                        <svg class="tab-icon"><use xlink:href="#icon-overview"></use></svg>
+                        Übersicht
+                    </button>
+                    <button class="tab-btn" data-tab="visualization">
+                        <svg class="tab-icon"><use xlink:href="#icon-graph"></use></svg>
+                        Visualisierung
+                    </button>
+                    <button class="tab-btn" data-tab="analysis">
+                        <svg class="tab-icon"><use xlink:href="#icon-analyze"></use></svg>
+                        Analyse
+                    </button>
+                    <button class="tab-btn" data-tab="optimization">
+                        <svg class="tab-icon"><use xlink:href="#icon-optimize"></use></svg>
+                        Optimierung
+                    </button>
+                    <button class="tab-btn" data-tab="compliance">
+                        <svg class="tab-icon"><use xlink:href="#icon-compliance"></use></svg>
+                        Compliance
+                    </button>
+                    <button class="tab-btn" data-tab="export">
+                        <svg class="tab-icon"><use xlink:href="#icon-export"></use></svg>
+                        Export
+                    </button>
+                </nav>
+
+                <!-- Tab Content -->
+                <div class="tab-content active" id="tab-overview">
+                    <!-- Wird dynamisch geladen -->
+                </div>
+                <div class="tab-content" id="tab-visualization">
+                    <div class="visualization-container">
+                        <div class="visualization-controls">
+                            <select id="viz-type" class="select">
+                                <option value="graph">Graph-Visualisierung</option>
+                                <option value="flowchart">Flowchart</option>
+                                <option value="gantt">Zeitablauf</option>
+                                <option value="swimlane">Swimlane</option>
+                            </select>
+                            <button class="btn btn-secondary" id="viz-export">Export als PNG</button>
+                        </div>
+                        <div class="visualization-area" id="visualization-area">
+                            <!-- SVG/Canvas für Visualisierung -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Weitere Tab-Inhalte... -->
+            </section>
+
+            <!-- AI Recommendations -->
+            <section class="section-ai card" id="ai-section" style="display: none;">
+                <div class="section-header">
+                    <h2><svg class="icon"><use xlink:href="#icon-ai"></use></svg> KI-Empfehlungen</h2>
+                    <span class="badge badge-beta">Beta</span>
+                </div>
+                <div id="ai-recommendations">
+                    <!-- KI-generierte Empfehlungen -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BPMN Pro Analyzer</h4>
+                    <p>Version 3.0.0 • Offline-fähig • MIT Lizenz</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Standards</h4>
+                    <ul>
+                        <li><a href="https://www.omg.org/spec/BPMN/2.0.2/" target="_blank" rel="noopener">BPMN 2.0.2</a></li>
+                        <li><a href="https://www.iso.org/standard/62085.html" target="_blank" rel="noopener">ISO 9001:2015</a></li>
+                        <li><a href="https://www.omg.org/odm/" target="_blank" rel="noopener">ODM Consortium</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Entwicklung</h4>
+                    <p>&copy; 2026 Jonas Zeußel</p>
+                    <p><a href="https://github.com/yourusername/bpmn-analyzer-pro" target="_blank" rel="noopener">GitHub Repository</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Dieses Tool ist Open Source unter der MIT Lizenz. Für kommerzielle Nutzung kontaktieren Sie den Autor.</p>
+            </div>
+        </footer>
+
+        <!-- Modals -->
+        <div class="modal" id="help-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Hilfe & Dokumentation</h3>
+                    <button class="btn-icon modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Hilfe-Inhalt -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SVG Icons Sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <defs>
+            <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z"/></symbol>
+            <symbol id="icon-analytics" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></symbol>
+            <!-- Weitere Icons... -->
+        </defs>
+    </svg>
+
+    <!-- JavaScript Bundle wird von Webpack eingefügt -->
+</body>
+</html>
