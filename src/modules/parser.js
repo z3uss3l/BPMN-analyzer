@@ -1,5 +1,5 @@
 import bpmnModdle from 'bpmn-moddle';
-import { SUPPORTED_FORMATS, NAMESPACES } from '@utils/constants';
+// import { SUPPORTED_FORMATS, NAMESPACES } from '@utils/constants';
 
 export class BPMNParser {
     constructor() {
@@ -11,27 +11,32 @@ export class BPMNParser {
             signavio: /signavio:/
         };
     }
-    
+
     async parseBPMN(xmlContent, fileName = '') {
         try {
             // Detect format
             const format = this.detectFormat(xmlContent, fileName);
-            
+
             // Normalize if necessary
             let normalizedXML = xmlContent;
             if (format !== 'bpmn20') {
                 normalizedXML = this.normalizeVendorFormat(xmlContent, format);
             }
-            
+
             // Parse with bpmn-moddle
-            const { rootElement, elements } = await this.moddle.fromXML(normalizedXML);
-            
+            const result = await this.moddle.fromXML(normalizedXML);
+            const rootElement = result.rootElement;
+
+            // Extract all elements into a flat map for easier processing
+            const elements = new Map();
+            this.traverseElements(rootElement, elements);
+
             // Extract metadata
             const metadata = this.extractMetadata(rootElement);
-            
+
             // Create process graph
             const processGraph = this.buildProcessGraph(elements);
-            
+
             return {
                 xml: normalizedXML,
                 originalXml: xmlContent,
@@ -41,36 +46,36 @@ export class BPMNParser {
                 elements: this.extractElements(elements),
                 timestamp: new Date().toISOString()
             };
-            
+
         } catch (error) {
             throw new Error(`Parsing error: ${error.message}`);
         }
     }
-    
+
     detectFormat(xml, fileName) {
         // Detect based on namespaces and structure
         if (xml.includes('http://www.omg.org/spec/BPMN/20100524/MODEL')) {
             return 'bpmn20';
         }
-        
+
         for (const [vendor, pattern] of Object.entries(this.vendorPatterns)) {
             if (pattern.test(xml)) {
                 return vendor;
             }
         }
-        
+
         // Based on filename
         if (fileName.endsWith('.bpmn') || fileName.endsWith('.bpmn2')) {
             return 'bpmn20';
         }
-        
+
         return 'unknown';
     }
-    
+
     normalizeVendorFormat(xml, format) {
         let normalized = xml;
-        
-        switch(format) {
+
+        switch (format) {
             case 'camunda':
                 normalized = this.normalizeCamunda(xml);
                 break;
@@ -83,10 +88,10 @@ export class BPMNParser {
             default:
                 normalized = this.normalizeGeneric(xml);
         }
-        
+
         return normalized;
     }
-    
+
     normalizeCamunda(xml) {
         return xml
             .replace(/camunda:/g, '')
@@ -95,8 +100,28 @@ export class BPMNParser {
             .replace(/<bpmn2:/g, '<bpmn:')
             .replace(/<\/bpmn2:/g, '</bpmn:');
     }
-    
-    buildProcessGraph(elements) {
+
+    traverseElements(element, map) {
+        if (!element) return;
+        if (element.id && !map.has(element.id)) {
+            map.set(element.id, element);
+        }
+
+        // Children can be in flowElements, rootElements, elements (custom), etc.
+        const children = element.flowElements || element.rootElements || element.elements || [];
+        children.forEach(child => this.traverseElements(child, map));
+
+        // Also check for processes specifically within definitions
+        if (element.$type === 'bpmn:Definitions' && element.rootElements) {
+            element.rootElements.forEach(root => {
+                if (root.$type === 'bpmn:Process') {
+                    this.traverseElements(root, map);
+                }
+            });
+        }
+    }
+
+    buildProcessGraph(elements = new Map()) {
         const graph = {
             nodes: new Map(),
             edges: new Map(),
@@ -105,14 +130,15 @@ export class BPMNParser {
             endEvents: [],
             gateways: []
         };
-        
+
+        if (!elements) return graph;
+
         // Iterate through elements and classify
-        Object.values(elements).forEach(element => {
-            if (!element.$type) return;
-            
+        const elementList = elements instanceof Map ? Array.from(elements.values()) : Object.values(elements);
+        elementList.forEach(element => {
             const node = {
                 id: element.id,
-                type: element.$type.replace('bpmn:', ''),
+                type: element.$type ? element.$type.replace('bpmn:', '') : 'Unknown',
                 name: element.name || element.id,
                 incoming: element.incoming || [],
                 outgoing: element.outgoing || [],
@@ -120,17 +146,17 @@ export class BPMNParser {
                 documentation: element.documentation || null,
                 extensionElements: element.extensionElements || null
             };
-            
+
             graph.nodes.set(element.id, node);
-            
+
             // Classification
             if (node.type.includes('StartEvent')) graph.startEvents.push(node);
             if (node.type.includes('EndEvent')) graph.endEvents.push(node);
             if (node.type.includes('Gateway')) graph.gateways.push(node);
         });
-        
+
         // Extract edges
-        Object.values(elements).forEach(element => {
+        elementList.forEach(element => {
             if (element.$type === 'bpmn:SequenceFlow') {
                 graph.edges.set(element.id, {
                     id: element.id,
@@ -141,14 +167,15 @@ export class BPMNParser {
                 });
             }
         });
-        
+
         return graph;
     }
-    
+
     extractElements(elements) {
         const result = {};
-        
-        Object.entries(elements).forEach(([id, element]) => {
+
+        const elementList = elements instanceof Map ? Array.from(elements.entries()) : Object.entries(elements);
+        elementList.forEach(([id, element]) => {
             if (element.$type) {
                 result[id] = {
                     id,
@@ -159,10 +186,10 @@ export class BPMNParser {
                 };
             }
         });
-        
+
         return result;
     }
-    
+
     extractAttributes(element) {
         const attrs = {};
         Object.keys(element).forEach(key => {
@@ -172,10 +199,11 @@ export class BPMNParser {
         });
         return attrs;
     }
-    
+
     findLaneForElement(element, elements) {
         // Search for lane that contains this element
-        for (const [id, el] of Object.entries(elements)) {
+        const elementList = elements instanceof Map ? Array.from(elements.entries()) : Object.entries(elements);
+        for (const [_id, el] of elementList) {
             if (el.$type === 'bpmn:Lane' && el.flowNodeRef) {
                 if (el.flowNodeRef.some(ref => ref.id === element.id)) {
                     return el.name || el.id;
@@ -184,19 +212,36 @@ export class BPMNParser {
         }
         return null;
     }
-    
+
     async readFile(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.onerror = (e) => reject(new Error('File reading error'));
+            reader.onload = (_e) => resolve(_e.target.result);
+            reader.onerror = (_e) => reject(new Error('File reading error'));
             reader.readAsText(file);
         });
     }
 
-    // Placeholder implementations for missing methods
-    normalizeActiviti(xml) { throw new Error('normalizeActiviti method not implemented'); }
-    normalizeFlowable(xml) { throw new Error('normalizeFlowable method not implemented'); }
-    normalizeGeneric(xml) { throw new Error('normalizeGeneric method not implemented'); }
-    extractMetadata(rootElement) { throw new Error('extractMetadata method not implemented'); }
+    // Implementations for missing methods
+    normalizeActiviti(xml) {
+        return xml.replace(/activiti:/g, '');
+    }
+
+    normalizeFlowable(xml) {
+        return xml.replace(/flowable:/g, '');
+    }
+
+    normalizeGeneric(xml) {
+        return xml;
+    }
+
+    extractMetadata(rootElement) {
+        return {
+            id: rootElement?.id || 'unknown',
+            name: rootElement?.name || 'Unnamed Process',
+            targetNamespace: rootElement?.targetNamespace,
+            exporter: rootElement?.exporter,
+            exporterVersion: rootElement?.exporterVersion
+        };
+    }
 }

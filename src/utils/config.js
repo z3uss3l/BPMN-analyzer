@@ -22,7 +22,7 @@ export class CONFIG {
    * @param {*} defaultValue - Default value if key not found
    * @returns {*} Configuration value
    */
-  static get(key, defaultValue = null) {
+  static get(_key, _defaultValue = null) {
     throw new Error('get method not implemented');
   }
 
@@ -31,7 +31,7 @@ export class CONFIG {
    * @param {string} key - Configuration key
    * @param {*} value - Configuration value
    */
-  static set(key, value) {
+  static set(_key, _value) {
     throw new Error('set method not implemented');
   }
 
@@ -47,7 +47,7 @@ export class CONFIG {
    * Set multiple configuration values
    * @param {Object} config - Configuration object
    */
-  static setAll(config) {
+  static setAll(_config) {
     throw new Error('setAll method not implemented');
   }
 
@@ -77,7 +77,7 @@ export class CONFIG {
    * @param {string} key - Configuration key
    * @param {Function} callback - Change callback
    */
-  static onChange(key, callback) {
+  static onChange(_key, _callback) {
     throw new Error('onChange method not implemented');
   }
 
@@ -86,7 +86,7 @@ export class CONFIG {
    * @param {string} key - Configuration key
    * @param {Function} callback - Change callback
    */
-  static offChange(key, callback) {
+  static offChange(_key, _callback) {
     throw new Error('offChange method not implemented');
   }
 
@@ -96,7 +96,7 @@ export class CONFIG {
    * @param {*} value - Value to validate
    * @returns {boolean} True if valid
    */
-  static validate(key, value) {
+  static validate(_key, _value) {
     throw new Error('validate method not implemented');
   }
 
@@ -120,7 +120,7 @@ export class CONFIG {
    * Import configuration
    * @param {string} configJson - JSON configuration string
    */
-  static import(configJson) {
+  static import(_configJson) {
     throw new Error('import method not implemented');
   }
 
@@ -129,7 +129,7 @@ export class CONFIG {
    * @param {Object} config - Configuration to merge
    * @returns {Object} Merged configuration
    */
-  static mergeWithDefaults(config) {
+  static mergeWithDefaults(_config) {
     throw new Error('mergeWithDefaults method not implemented');
   }
 
@@ -138,7 +138,7 @@ export class CONFIG {
    * @param {string} category - Configuration category
    * @returns {Object} Category configuration
    */
-  static getCategory(category) {
+  static getCategory(_category) {
     throw new Error('getCategory method not implemented');
   }
 
@@ -147,7 +147,7 @@ export class CONFIG {
    * @param {string} category - Configuration category
    * @param {Object} config - Category configuration
    */
-  static setCategory(category, config) {
+  static setCategory(_category, _config) {
     throw new Error('setCategory method not implemented');
   }
 
@@ -156,7 +156,7 @@ export class CONFIG {
    * @param {string} key - Configuration key
    * @returns {boolean} True if exists
    */
-  static has(key) {
+  static has(_key) {
     throw new Error('has method not implemented');
   }
 
@@ -164,7 +164,7 @@ export class CONFIG {
    * Delete configuration key
    * @param {string} key - Configuration key
    */
-  static delete(key) {
+  static delete(_key) {
     throw new Error('delete method not implemented');
   }
 
@@ -195,7 +195,7 @@ export class CONFIG {
    * Restore configuration from backup
    * @param {string} backupData - Backup data
    */
-  static restore(backupData) {
+  static restore(_backupData) {
     throw new Error('restore method not implemented');
   }
 
@@ -211,7 +211,7 @@ export class CONFIG {
    * Revert to previous configuration
    * @param {number} index - History index
    */
-  static revert(index) {
+  static revert(_index) {
     throw new Error('revert method not implemented');
   }
 
@@ -219,7 +219,7 @@ export class CONFIG {
    * Enable configuration feature
    * @param {string} feature - Feature name
    */
-  static enableFeature(feature) {
+  static enableFeature(_feature) {
     throw new Error('enableFeature method not implemented');
   }
 
@@ -227,7 +227,7 @@ export class CONFIG {
    * Disable configuration feature
    * @param {string} feature - Feature name
    */
-  static disableFeature(feature) {
+  static disableFeature(_feature) {
     throw new Error('disableFeature method not implemented');
   }
 
@@ -236,7 +236,7 @@ export class CONFIG {
    * @param {string} feature - Feature name
    * @returns {boolean} True if enabled
    */
-  static isFeatureEnabled(feature) {
+  static isFeatureEnabled(_feature) {
     throw new Error('isFeatureEnabled method not implemented');
   }
 
@@ -253,7 +253,7 @@ export class CONFIG {
    * @param {string} key - Preference key
    * @param {*} value - Preference value
    */
-  static setUserPreference(key, value) {
+  static setUserPreference(_key, _value) {
     throw new Error('setUserPreference method not implemented');
   }
 
@@ -263,7 +263,7 @@ export class CONFIG {
    * @param {*} defaultValue - Default value
    * @returns {*} Preference value
    */
-  static getUserPreference(key, defaultValue = null) {
+  static getUserPreference(_key, _defaultValue = null) {
     throw new Error('getUserPreference method not implemented');
   }
 

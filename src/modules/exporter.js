@@ -25,7 +25,7 @@ export class ExportManager {
      */
     async export(format, data, options = {}) {
         const exportFn = this.getExportFunction(format);
-        
+
         if (!exportFn) {
             throw new Error(`Export format ${format} not supported`);
         }
@@ -91,7 +91,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {string} XML string
      */
-    exportXML(data, options = {}) {
+    exportXML(data, _options = {}) {
         return data.process?.xml || data.process?.originalXml || '';
     }
 
@@ -111,7 +111,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {Blob} PNG blob
      */
-    async exportPNG(data, options = {}) {
+    async exportPNG(data, _options = {}) {
         if (!data.visualization) {
             throw new Error('No visualization data available for PNG export');
         }
@@ -127,7 +127,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {string} SVG string
      */
-    exportSVG(data, options = {}) {
+    exportSVG(data, _options = {}) {
         if (!data.visualization) {
             throw new Error('No visualization data available for SVG export');
         }
@@ -142,7 +142,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {Buffer} PDF buffer
      */
-    async exportPDF(data, options = {}) {
+    async exportPDF(_data, _options = {}) {
         // Placeholder implementation
         return new Uint8Array([37, 80, 68, 70]); // %PDF header
     }
@@ -153,7 +153,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {Buffer} Excel buffer
      */
-    exportExcel(data, options = {}) {
+    exportExcel(_data, _options = {}) {
         // Placeholder implementation
         return new Uint8Array([80, 75, 3, 4]); // ZIP header
     }
@@ -164,7 +164,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {string} CSV string
      */
-    exportCSV(data, options = {}) {
+    exportCSV(data, _options = {}) {
         if (!data.analysis?.recommendations) {
             throw new Error('No recommendations data available for CSV export');
         }
@@ -189,7 +189,7 @@ export class ExportManager {
      * @param {Object} options - Export options
      * @returns {string} HTML string
      */
-    exportHTML(data, options = {}) {
+    exportHTML(data, _options = {}) {
         return `
 <!DOCTYPE html>
 <html lang="de">

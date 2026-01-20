@@ -1,6 +1,8 @@
 module.exports = {
     env: {
         browser: true,
+        node: true,
+        jest: true,
         es2021: true
     },
     extends: ['eslint:recommended'],
@@ -10,7 +12,7 @@ module.exports = {
     },
     rules: {
         'no-console': 'warn',
-        'no-unused-vars': 'error',
+        'no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],
         'prefer-const': 'error'
     }
 };

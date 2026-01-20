@@ -8,15 +8,15 @@ export class ProcessSimulator {
     }
 
     // Placeholder implementations
-    monteCarloSimulation(process, iterations) { 
-        throw new Error('monteCarloSimulation method not implemented'); 
+    monteCarloSimulation(_process, _iterations) {
+        throw new Error('monteCarloSimulation method not implemented');
     }
-    
-    discreteEventSimulation(process) { 
-        throw new Error('discreteEventSimulation method not implemented'); 
+
+    discreteEventSimulation(_process) {
+        throw new Error('discreteEventSimulation method not implemented');
     }
-    
-    whatIfAnalysis(process) { 
-        throw new Error('whatIfAnalysis method not implemented'); 
+
+    whatIfAnalysis(_process) {
+        throw new Error('whatIfAnalysis method not implemented');
     }
 }

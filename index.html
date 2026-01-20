@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional BPMN Analysis Tool mit ISO 9001 Compliance, Process Mining und Optimierung">
+    <meta name="description"
+        content="Professional BPMN Analysis Tool mit ISO 9001 Compliance, Process Mining und Optimierung">
     <meta name="keywords" content="BPMN, ISO 9001, Prozessanalyse, Business Process, Optimization">
     <meta name="author" content="Jonas Zeußel">
     <title>BPMN Pro Analyzer | Prozessanalyse & ISO 9001 Compliance</title>
-    
+
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="BPMN Pro Analyzer">
     <meta property="og:description" content="Professional Process Analysis & ISO 9001 Compliance Tool">
     <meta property="og:type" content="website">
-    
+
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.webmanifest">
-    
+
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/src/assets/icon.svg">
     <link rel="apple-touch-icon" href="/src/assets/apple-touch-icon.png">
-    
+
     <!-- CSS -->
-    <link rel="stylesheet" href="./src/styles/main.css">
-    
+
+
     <!-- PWA Service Worker (wird von Webpack injiziert) -->
 </head>
+
 <body>
     <div id="app">
         <!-- Header -->
@@ -32,19 +35,22 @@
             <div class="header-content">
                 <div class="logo">
                     <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                        <path fill="currentColor"
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                     </svg>
                     <h1>BPMN Pro Analyzer</h1>
                 </div>
                 <div class="header-actions">
                     <button id="theme-toggle" class="btn-icon" aria-label="Theme wechseln">
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6Z"/>
+                            <path fill="currentColor"
+                                d="M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6Z" />
                         </svg>
                     </button>
                     <button id="help-btn" class="btn-icon" aria-label="Hilfe">
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z"/>
+                            <path fill="currentColor"
+                                d="M11,18H13V16H11V18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6Z" />
                         </svg>
                     </button>
                 </div>
@@ -61,29 +67,31 @@
                 <div class="section-header">
                     <h2>
                         <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            <path fill="currentColor"
+                                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
                         </svg>
                         BPMN Datei hochladen
                     </h2>
                     <div class="section-actions">
                         <button class="btn btn-secondary btn-sm">
                             <svg width="16" height="16" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                <path fill="currentColor"
+                                    d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
                             </svg>
                             Sample laden
                         </button>
                     </div>
                 </div>
-                
+
                 <div id="drop-zone" class="upload-zone">
                     <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z"/>
+                        <path fill="currentColor" d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
                     </svg>
                     <p><strong>BPMN Datei hier ablegen</strong> oder klicken zum Auswählen</p>
                     <p class="upload-hint">Unterstützte Formate: .bpmn, .xml (BPMN 2.0.2)</p>
                     <input type="file" id="file-input" accept=".bpmn,.xml" style="display: none;">
                 </div>
-                
+
                 <!-- Progress Container -->
                 <div id="progress-container" class="progress-container" style="display: none;">
                     <div class="progress-header">
@@ -101,20 +109,22 @@
                 <div class="section-header">
                     <h2>
                         <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z"/>
+                            <path fill="currentColor"
+                                d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z" />
                         </svg>
                         Analyse Dashboard
                     </h2>
                     <div class="section-actions">
                         <button class="btn btn-primary btn-sm">
                             <svg width="16" height="16" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M19,12V19H5V12H3V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19M13,12.67L15.59,10.09L17,11.5L12,16.5L7,11.5L8.41,10.09L11,12.67V3H13V12.67Z"/>
+                                <path fill="currentColor"
+                                    d="M19,12V19H5V12H3V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19M13,12.67L15.59,10.09L17,11.5L12,16.5L7,11.5L8.41,10.09L11,12.67V3H13V12.67Z" />
                             </svg>
                             Exportieren
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-header">
                     <div>
                         <h3>Prozessstatistik</h3>
@@ -138,45 +148,48 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Dashboard Tabs -->
                 <div id="dashboard-tabs" class="dashboard-tabs">
                     <button class="tab-btn active" data-tab="overview">
                         <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M7,7H17V9H7V7M7,11H17V13H7V11M7,15H17V17H7V15Z"/>
+                            <path fill="currentColor"
+                                d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M7,7H17V9H7V7M7,11H17V13H7V11M7,15H17V17H7V15Z" />
                         </svg>
                         Übersicht
                     </button>
                     <button class="tab-btn" data-tab="notation">
                         <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"/>
+                            <path fill="currentColor"
+                                d="M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" />
                         </svg>
                         Notation
                     </button>
                     <button class="tab-btn" data-tab="visualization">
                         <svg class="tab-icon" width="16" height="16" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/>
+                            <path fill="currentColor" d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z" />
                         </svg>
                         Visualisierung
                     </button>
                 </div>
-                
+
                 <!-- Tab Contents -->
                 <div id="tab-overview" class="tab-content active">
                     <h4>Prozessübersicht</h4>
                     <p>Detaillierte Analyse des BPMN-Prozesses wird hier angezeigt.</p>
                 </div>
-                
+
                 <div id="tab-notation" class="tab-content">
                     <div class="code-editor">
-                        <textarea id="notation-output" placeholder="Prozess-Notation wird hier angezeigt..." readonly></textarea>
+                        <textarea id="notation-output" placeholder="Prozess-Notation wird hier angezeigt..."
+                            readonly></textarea>
                         <div class="code-info">
                             <span id="line-count">0 Zeilen</span>
                             <span id="char-count">0 Zeichen</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="tab-visualization" class="tab-content">
                     <div class="visualization-container">
                         <div class="visualization-controls">
@@ -213,7 +226,8 @@
                 <div class="section-header">
                     <h2>
                         <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16Z"/>
+                            <path fill="currentColor"
+                                d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16Z" />
                         </svg>
                         KI-Empfehlungen
                     </h2>
@@ -221,10 +235,11 @@
                         <span class="badge badge-beta">BETA</span>
                     </div>
                 </div>
-                
+
                 <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
                     <svg width="48" height="48" viewBox="0 0 24 24" style="opacity: 0.5;">
-                        <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16Z"/>
+                        <path fill="currentColor"
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16Z" />
                     </svg>
                     <p>KI-gestützte Prozessoptimierungen werden nach Analyse angezeigt...</p>
                 </div>
@@ -280,7 +295,7 @@
                     <li>Erhalten Sie detaillierte Einblicke und Empfehlungen</li>
                     <li>Exportieren Sie die Ergebnisse in verschiedenen Formaten</li>
                 </ol>
-                
+
                 <h4>Unterstützte Formate</h4>
                 <ul>
                     <li>BPMN 2.0.2 XML</li>
@@ -288,7 +303,7 @@
                     <li>Activiti BPMN</li>
                     <li>Flowable BPMN</li>
                 </ul>
-                
+
                 <h4>Features</h4>
                 <ul>
                     <li>✅ Prozessanalyse & Validierung</li>
@@ -297,14 +312,14 @@
                     <li>✅ Visuelle Prozessdarstellung</li>
                     <li>✅ Export in多种格式</li>
                 </ul>
-                
+
                 <h4>Support</h4>
                 <p>Für Fragen und Support kontaktieren Sie uns oder besuchen Sie unsere Dokumentation.</p>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script type="module" src="./src/main.js"></script>
+    <!-- JavaScript is injected by Webpack -->
 </body>
+
 </html>

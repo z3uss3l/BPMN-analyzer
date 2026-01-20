@@ -1,5 +1,5 @@
 import './styles/main.css';
-import { UI, initializeUI, updateDashboard } from '@modules/ui';
+import { initializeUI, updateDashboard } from '@modules/ui';
 import { BPMNParser } from '@modules/parser';
 import { AnalysisEngine } from '@modules/analyzer';
 import { ExportManager } from '@modules/exporter';
@@ -17,74 +17,79 @@ class BPMNApp {
             settings: this.loadSettings(),
             history: []
         };
-        
+
         this.parser = new BPMNParser();
         this.analyzer = new AnalysisEngine();
         this.exporter = new ExportManager();
         this.validator = new Validator();
         this.aiOptimizer = new AIOptimizer();
         this.vizEngine = new VisualizationEngine();
-        
+
         this.init();
     }
-    
+
     async init() {
         await initializeUI(this);
         this.setupEventListeners();
         this.loadSampleProcess();
-        
+
         // Service Worker for PWA
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js');
         }
     }
-    
+
     async loadProcess(file) {
         try {
             this.showProgress(0, 'Datei wird geladen...');
-            
+
             const xmlContent = await this.parser.readFile(file);
             this.showProgress(30, 'XML wird geparst...');
-            
+
             const parsed = await this.parser.parseBPMN(xmlContent, file.name);
             this.showProgress(60, 'Prozess wird analysiert...');
-            
+
             const analysis = await this.analyzer.analyze(parsed);
             this.showProgress(90, 'Visualisierung wird erstellt...');
-            
+
             const visualization = await this.vizEngine.createVisualization(parsed);
-            
+
             this.state.currentProcess = parsed;
             this.state.analysisResults = analysis;
             this.state.visualization = visualization;
-            
+
             updateDashboard(this.state);
             this.showProgress(100, 'Analyse abgeschlossen!');
-            
+
             // AI recommendations asynchronously
             this.loadAIRecommendations(analysis);
-            
+
             // Save to history
             this.saveToHistory(parsed, analysis);
-            
+
         } catch (error) {
-            console.error('Fehler beim Laden:', error);
+            // console.error('Fehler beim Laden:', error);
             this.showError(error.message);
         }
     }
-    
+
+    async loadAIRecommendations(_analysis) {
+        // console.log('Loading AI recommendations...');
+        // This could be an async call to an AI service
+    }
+
     async optimizeProcess(strategy = 'auto') {
         if (!this.state.currentProcess) return;
-        
+
         const recommendations = await this.aiOptimizer.generateRecommendations(
             this.state.currentProcess,
             this.state.analysisResults,
             strategy
         );
-        
+
         return recommendations;
     }
-    
+
     saveToHistory(process, analysis) {
         this.state.history.unshift({
             timestamp: new Date().toISOString(),
@@ -93,46 +98,46 @@ class BPMNApp {
             isoScore: analysis.compliance?.score || 0,
             data: { process, analysis }
         });
-        
+
         // Keep only 10 entries
         if (this.state.history.length > 10) {
             this.state.history.pop();
         }
-        
+
         localStorage.setItem('bpmn-history', JSON.stringify(this.state.history));
     }
-    
+
     showProgress(percent, message) {
         const progressEvent = new CustomEvent('progress', {
             detail: { percent, message }
         });
         window.dispatchEvent(progressEvent);
     }
-    
+
     showError(message) {
         const errorEvent = new CustomEvent('error', {
             detail: { message }
         });
         window.dispatchEvent(errorEvent);
     }
-    
+
     setupEventListeners() {
         // File upload button
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
-        
+
         if (dropZone && fileInput) {
             dropZone.addEventListener('click', () => fileInput.click());
-            
+
             dropZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropZone.classList.add('drag-over');
             });
-            
+
             dropZone.addEventListener('dragleave', () => {
                 dropZone.classList.remove('drag-over');
             });
-            
+
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropZone.classList.remove('drag-over');
@@ -141,7 +146,7 @@ class BPMNApp {
                     this.loadProcess(files[0]);
                 }
             });
-            
+
             fileInput.addEventListener('change', (e) => {
                 const files = e.target.files;
                 if (files.length > 0) {
@@ -149,7 +154,7 @@ class BPMNApp {
                 }
             });
         }
-        
+
         // Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
@@ -160,26 +165,26 @@ class BPMNApp {
                 localStorage.setItem('theme', newTheme);
             });
         }
-        
+
         // Help button
         const helpBtn = document.getElementById('help-btn');
         const helpModal = document.getElementById('help-modal');
         const modalClose = helpModal?.querySelector('.modal-close');
-        
+
         if (helpBtn && helpModal) {
             helpBtn.addEventListener('click', () => {
                 helpModal.style.display = 'flex';
                 helpModal.classList.add('active');
             });
         }
-        
+
         if (modalClose && helpModal) {
             modalClose.addEventListener('click', () => {
                 helpModal.style.display = 'none';
                 helpModal.classList.remove('active');
             });
         }
-        
+
         // Close modal on background click
         if (helpModal) {
             helpModal.addEventListener('click', (e) => {
@@ -189,24 +194,25 @@ class BPMNApp {
                 }
             });
         }
-        
+
         // Sample button
         const sampleBtn = document.querySelector('.btn-secondary');
         if (sampleBtn) {
             sampleBtn.addEventListener('click', async () => {
                 try {
-                    const response = await fetch('./samples/sample-process.bpmn');
+                    const response = await fetch('/samples/sample-process.bpmn');
+                    if (!response.ok) throw new Error('Sample file not found');
                     const xml = await response.text();
                     const blob = new Blob([xml], { type: 'text/xml' });
                     const file = new File([blob], 'sample-process.bpmn', { type: 'text/xml' });
-                    this.loadProcess(file);
+                    await this.loadProcess(file);
                 } catch (error) {
-                    console.error('Sample loading failed:', error);
+                    // console.error('Sample loading failed:', error);
                     this.showError('Sample-Datei konnte nicht geladen werden');
                 }
             });
         }
-        
+
         // Export button
         const exportBtn = document.querySelector('.btn-primary');
         if (exportBtn) {
@@ -215,14 +221,14 @@ class BPMNApp {
                     this.showError('Bitte zuerst eine BPMN-Datei laden');
                     return;
                 }
-                
+
                 // Simple export as JSON for now
                 const exportData = {
                     process: this.state.currentProcess,
                     analysis: this.state.analysisResults,
                     timestamp: new Date().toISOString()
                 };
-                
+
                 const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -234,17 +240,17 @@ class BPMNApp {
                 URL.revokeObjectURL(url);
             });
         }
-        
+
         // Tab switching
         const tabBtns = document.querySelectorAll('.tab-btn');
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tabName = btn.dataset.tab;
-                
+
                 // Update active tab button
                 tabBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                
+
                 // Update active tab content
                 const tabContents = document.querySelectorAll('.tab-content');
                 tabContents.forEach(content => {
@@ -255,7 +261,7 @@ class BPMNApp {
                 });
             });
         });
-        
+
         // Progress and error events
         window.addEventListener('progress', (e) => {
             const { percent, message } = e.detail;
@@ -263,23 +269,23 @@ class BPMNApp {
             const progressFill = document.getElementById('progress-fill');
             const progressPercent = document.getElementById('progress-percent');
             const progressSteps = document.getElementById('progress-steps');
-            
+
             if (progressContainer) {
                 progressContainer.style.display = 'block';
             }
-            
+
             if (progressFill) {
                 progressFill.style.width = `${percent}%`;
             }
-            
+
             if (progressPercent) {
                 progressPercent.textContent = `${percent}%`;
             }
-            
+
             if (progressSteps) {
                 progressSteps.textContent = message;
             }
-            
+
             if (percent >= 100) {
                 setTimeout(() => {
                     if (progressContainer) {
@@ -288,23 +294,23 @@ class BPMNApp {
                 }, 2000);
             }
         });
-        
+
         window.addEventListener('error', (e) => {
             const { message } = e.detail;
             this.showNotification(message, 'error');
         });
-        
+
         window.addEventListener('export-request', async (e) => {
             const { format, options } = e.detail;
             await this.handleExport(format, options);
         });
     }
-    
+
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.textContent = message;
-        
+
         // Style the notification
         Object.assign(notification.style, {
             position: 'fixed',
@@ -321,7 +327,7 @@ class BPMNApp {
             transform: 'translateX(100%)',
             transition: 'transform 0.3s ease'
         });
-        
+
         // Set background color based on type
         const colors = {
             success: '#22c55e',
@@ -330,14 +336,14 @@ class BPMNApp {
             info: '#3b82f6'
         };
         notification.style.backgroundColor = colors[type] || colors.info;
-        
+
         document.body.appendChild(notification);
-        
+
         // Animate in
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         // Remove after 5 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
@@ -348,30 +354,38 @@ class BPMNApp {
             }, 300);
         }, 5000);
     }
-    
+
     async handleExport(format, options = {}) {
         const exportData = {
             process: this.state.currentProcess,
             analysis: this.state.analysisResults,
             visualization: this.state.visualization
         };
-        
+
         return await this.exporter.export(format, exportData, options);
     }
-    
+
     loadSettings() {
         return JSON.parse(localStorage.getItem('bpmn-settings') || '{}');
     }
-    
+
     saveSettings(settings) {
         this.state.settings = { ...this.state.settings, ...settings };
         localStorage.setItem('bpmn-settings', JSON.stringify(this.state.settings));
     }
-    
+
     async loadSampleProcess() {
-        const response = await fetch('/samples/sample-process.bpmn');
-        const xml = await response.text();
-        return xml;
+        try {
+            const response = await fetch('/samples/sample-process.bpmn');
+            if (response.ok) {
+                const xml = await response.text();
+                const blob = new Blob([xml], { type: 'text/xml' });
+                const file = new File([blob], 'sample-process.bpmn', { type: 'text/xml' });
+                await this.loadProcess(file);
+            }
+        } catch (error) {
+            // Ignore initial load local errors
+        }
     }
 }
 

@@ -3,9 +3,9 @@ const loadAIOptimizer = () => import('@modules/ai-optimizer');
 const loadVisualization = () => import('@modules/visualization');
 
 // Lazy loading for rarely used features
-if (userRequestsAI) {
+export async function handleAIRequest() {
     const { AIOptimizer } = await loadAIOptimizer();
-    // ... use it
+    return new AIOptimizer();
 }
 
 export { loadAIOptimizer, loadVisualization };

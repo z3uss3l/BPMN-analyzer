@@ -12,18 +12,18 @@ export class VisualizationEngine {
             container: '#visualization-area',
             width: 800,
             height: 600,
-            theme: 'default',
+            theme: 'light',
             layout: 'dagre',
             ...options
         };
-        
+
         this.svg = null;
         this.g = null;
         this.zoom = null;
         this.currentLayout = null;
         this.nodes = [];
         this.edges = [];
-        this.colorScheme = COLOR_SCHEMES[this.options.theme] || COLOR_SCHEMES.default;
+        this.colorScheme = COLOR_SCHEMES[this.options.theme] || COLOR_SCHEMES.light || {};
     }
 
     /**
@@ -34,16 +34,16 @@ export class VisualizationEngine {
     async createVisualization(bpmnData) {
         try {
             this.clearVisualization();
-            
+
             // Extract nodes and edges from BPMN data
             this.extractGraphElements(bpmnData);
-            
+
             // Create layout
             await this.createLayout();
-            
+
             // Render visualization
             this.render();
-            
+
             return {
                 success: true,
                 svg: this.svg,
@@ -64,30 +64,33 @@ export class VisualizationEngine {
         this.nodes = [];
         this.edges = [];
 
-        // Extract nodes from BPMN elements
-        if (bpmnData.elements) {
-            Object.entries(bpmnData.elements).forEach(([id, element]) => {
+        // Extract nodes from graph metadata
+        if (bpmnData.graph && bpmnData.graph.nodes) {
+            const nodes = bpmnData.graph.nodes instanceof Map ? Array.from(bpmnData.graph.nodes.values()) : Object.values(bpmnData.graph.nodes);
+            nodes.forEach(nodeData => {
                 const node = {
-                    id,
-                    type: element.type,
-                    name: element.name || id,
-                    data: element,
+                    id: nodeData.id,
+                    type: nodeData.type,
+                    name: nodeData.name || nodeData.id,
+                    data: nodeData,
                     x: 0,
                     y: 0,
-                    width: this.getNodeWidth(element.type),
-                    height: this.getNodeHeight(element.type)
+                    width: this.getNodeWidth(nodeData.type),
+                    height: this.getNodeHeight(nodeData.type)
                 };
                 this.nodes.push(node);
             });
         }
 
         // Extract edges from sequence flows
-        if (bpmnData.sequenceFlows) {
-            bpmnData.sequenceFlows.forEach(flow => {
+        // Extract edges from graph metadata
+        if (bpmnData.graph && bpmnData.graph.edges) {
+            const edges = bpmnData.graph.edges instanceof Map ? Array.from(bpmnData.graph.edges.values()) : Object.values(bpmnData.graph.edges);
+            edges.forEach(flow => {
                 const edge = {
                     id: flow.id,
-                    source: flow.sourceRef,
-                    target: flow.targetRef,
+                    source: flow.source,
+                    target: flow.target,
                     name: flow.name || '',
                     data: flow
                 };
@@ -141,7 +144,7 @@ export class VisualizationEngine {
      */
     render() {
         const container = d3.select(this.options.container);
-        
+
         // Clear existing content
         container.selectAll('*').remove();
 
@@ -194,7 +197,7 @@ export class VisualizationEngine {
         edges.append('path')
             .attr('d', d => this.createEdgePath(d))
             .attr('fill', 'none')
-            .attr('stroke', this.colorScheme.edge)
+            .attr('stroke', this.colorScheme.primary || '#666')
             .attr('stroke-width', 2)
             .attr('marker-end', 'url(#arrowhead)');
 
@@ -210,7 +213,7 @@ export class VisualizationEngine {
             .attr('orient', 'auto')
             .append('path')
             .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-            .attr('fill', this.colorScheme.edge);
+            .attr('fill', this.colorScheme.primary || '#666');
 
         // Add label if exists
         edges.filter(d => d.name)
@@ -221,7 +224,7 @@ export class VisualizationEngine {
             .attr('dy', -5)
             .text(d => d.name)
             .style('font-size', '12px')
-            .style('fill', this.colorScheme.text);
+            .style('fill', this.colorScheme.text || '#000');
     }
 
     /**
@@ -234,7 +237,7 @@ export class VisualizationEngine {
             .enter()
             .append('g')
             .attr('class', 'node')
-            .attr('transform', d => `translate(${d.x - d.width/2}, ${d.y - d.height/2})`)
+            .attr('transform', d => `translate(${d.x - d.width / 2}, ${d.y - d.height / 2})`)
             .style('cursor', 'pointer')
             .call(this.createDragBehavior());
 
@@ -252,19 +255,19 @@ export class VisualizationEngine {
             .attr('dy', '0.35em')
             .text(d => d.name)
             .style('font-size', '12px')
-            .style('fill', this.colorScheme.text);
+            .style('fill', this.colorScheme.text || '#000');
 
         // Add hover effects
-        nodes.on('mouseover', function(event, d) {
+        nodes.on('mouseover', function (_event, _d) {
             d3.select(this).select('rect, circle, path')
                 .attr('stroke', '#333')
                 .attr('stroke-width', 3);
         })
-        .on('mouseout', function(event, d) {
-            d3.select(this).select('rect, circle, path')
-                .attr('stroke', 'none')
-                .attr('stroke-width', 1);
-        });
+            .on('mouseout', function (_event, _d) {
+                d3.select(this).select('rect, circle, path')
+                    .attr('stroke', 'none')
+                    .attr('stroke-width', 1);
+            });
     }
 
     /**
@@ -273,7 +276,7 @@ export class VisualizationEngine {
      * @param {Object} d - Node data
      */
     renderNodeShape(node, d) {
-        const fillColor = this.colorScheme[d.type] || this.colorScheme.default;
+        const fillColor = this.colorScheme[d.type] || this.colorScheme.primary || '#fff';
 
         switch (d.type) {
             case 'task':
@@ -336,7 +339,7 @@ export class VisualizationEngine {
      * @returns {string} Path string
      */
     createDiamondPath(width, height) {
-        return `M ${width/2} 0 L ${width} ${height/2} L ${width/2} ${height} L 0 ${height/2} Z`;
+        return `M ${width / 2} 0 L ${width} ${height / 2} L ${width / 2} ${height} L 0 ${height / 2} Z`;
     }
 
     /**
@@ -347,7 +350,7 @@ export class VisualizationEngine {
     createEdgePath(edge) {
         const sourceNode = this.nodes.find(n => n.id === edge.source);
         const targetNode = this.nodes.find(n => n.id === edge.target);
-        
+
         if (!sourceNode || !targetNode) return '';
 
         const x1 = sourceNode.x;
@@ -366,7 +369,7 @@ export class VisualizationEngine {
     getEdgeMidpoint(edge) {
         const sourceNode = this.nodes.find(n => n.id === edge.source);
         const targetNode = this.nodes.find(n => n.id === edge.target);
-        
+
         if (!sourceNode || !targetNode) return { x: 0, y: 0 };
 
         return {
@@ -381,16 +384,16 @@ export class VisualizationEngine {
      */
     createDragBehavior() {
         return d3.drag()
-            .on('start', (event, d) => {
+            .on('start', (event, _d) => {
                 d3.select(event.sourceEvent.target.parentNode).raise();
             })
             .on('drag', (event, d) => {
                 d.x = event.x;
                 d.y = event.y;
                 d3.select(event.sourceEvent.target.parentNode)
-                    .attr('transform', `translate(${d.x - d.width/2}, ${d.y - d.height/2})`);
+                    .attr('transform', `translate(${d.x - d.width / 2}, ${d.y - d.height / 2})`);
             })
-            .on('end', (event, d) => {
+            .on('end', (_event, _d) => {
                 // Update edges if needed
                 this.updateEdges();
             });

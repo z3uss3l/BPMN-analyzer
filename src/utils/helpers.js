@@ -13,7 +13,12 @@ export class Helpers {
    * @returns {Promise<string>} File content
    */
   static async readFile(file) {
-    throw new Error('readFile method not implemented');
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (e) => reject(e);
+      reader.readAsText(file);
+    });
   }
 
   /**
@@ -23,7 +28,15 @@ export class Helpers {
    * @param {string} mimeType - MIME type
    */
   static downloadFile(filename, content, mimeType = 'text/plain') {
-    throw new Error('downloadFile method not implemented');
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   /**
@@ -32,7 +45,15 @@ export class Helpers {
    * @returns {*} Cloned object
    */
   static deepClone(obj) {
-    throw new Error('deepClone method not implemented');
+    if (obj === null || typeof obj !== 'object') return obj;
+    if (Array.isArray(obj)) return obj.map(item => Helpers.deepClone(item));
+    const cloned = {};
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        cloned[key] = Helpers.deepClone(obj[key]);
+      }
+    }
+    return cloned;
   }
 
   /**
@@ -42,7 +63,12 @@ export class Helpers {
    * @returns {Function} Debounced function
    */
   static debounce(func, wait) {
-    throw new Error('debounce method not implemented');
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
   }
 
   /**
@@ -52,7 +78,17 @@ export class Helpers {
    * @returns {Function} Throttled function
    */
   static throttle(func, limit) {
-    throw new Error('throttle method not implemented');
+    let inThrottle;
+    return function (...args) {
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => {
+          inThrottle = false;
+        }, limit);
+      }
+    };
   }
 
   /**
@@ -61,7 +97,7 @@ export class Helpers {
    * @returns {string} Unique ID
    */
   static generateId(prefix = 'id') {
-    throw new Error('generateId method not implemented');
+    return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
@@ -70,7 +106,11 @@ export class Helpers {
    * @returns {string} Formatted size
    */
   static formatFileSize(bytes) {
-    throw new Error('formatFileSize method not implemented');
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
   /**
@@ -80,7 +120,16 @@ export class Helpers {
    * @returns {string} Formatted date
    */
   static formatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
-    throw new Error('formatDate method not implemented');
+    const d = new Date(date);
+    const map = {
+      'YYYY': d.getFullYear(),
+      'MM': String(d.getMonth() + 1).padStart(2, '0'),
+      'DD': String(d.getDate()).padStart(2, '0'),
+      'HH': String(d.getHours()).padStart(2, '0'),
+      'mm': String(d.getMinutes()).padStart(2, '0'),
+      'ss': String(d.getSeconds()).padStart(2, '0')
+    };
+    return format.replace(/YYYY|MM|DD|HH|mm|ss/g, matched => map[matched]);
   }
 
   /**
@@ -89,7 +138,8 @@ export class Helpers {
    * @returns {boolean} True if valid
    */
   static isValidEmail(email) {
-    throw new Error('isValidEmail method not implemented');
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
   /**
@@ -98,7 +148,12 @@ export class Helpers {
    * @returns {boolean} True if valid
    */
   static isValidURL(url) {
-    throw new Error('isValidURL method not implemented');
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   /**
@@ -107,7 +162,14 @@ export class Helpers {
    * @returns {string} Escaped text
    */
   static escapeHTML(text) {
-    throw new Error('escapeHTML method not implemented');
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
   }
 
   /**
@@ -116,7 +178,8 @@ export class Helpers {
    * @returns {string} Sanitized string
    */
   static sanitize(str) {
-    throw new Error('sanitize method not implemented');
+    if (typeof str !== 'string') return str;
+    return str.replace(/[^\w\s-]/gi, '').trim();
   }
 
   /**
@@ -125,7 +188,8 @@ export class Helpers {
    * @returns {string} Capitalized string
    */
   static capitalize(str) {
-    throw new Error('capitalize method not implemented');
+    if (!str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   /**
@@ -134,7 +198,7 @@ export class Helpers {
    * @returns {string} Kebab-case string
    */
   static camelToKebab(str) {
-    throw new Error('camelToKebab method not implemented');
+    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
   }
 
   /**
@@ -143,7 +207,7 @@ export class Helpers {
    * @returns {string} CamelCase string
    */
   static kebabToCamel(str) {
-    throw new Error('kebabToCamel method not implemented');
+    return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
   }
 
   /**
@@ -154,7 +218,7 @@ export class Helpers {
    * @returns {*} Property value
    */
   static getNestedProperty(obj, path, defaultValue = null) {
-    throw new Error('getNestedProperty method not implemented');
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj) || defaultValue;
   }
 
   /**
@@ -164,7 +228,13 @@ export class Helpers {
    * @param {*} value - Value to set
    */
   static setNestedProperty(obj, path, value) {
-    throw new Error('setNestedProperty method not implemented');
+    const parts = path.split('.');
+    const last = parts.pop();
+    const target = parts.reduce((acc, part) => {
+      if (!acc[part]) acc[part] = {};
+      return acc[part];
+    }, obj);
+    target[last] = value;
   }
 
   /**
@@ -174,7 +244,18 @@ export class Helpers {
    * @returns {Object} Merged object
    */
   static merge(target, ...sources) {
-    throw new Error('merge method not implemented');
+    sources.forEach(source => {
+      for (const key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          if (Helpers.isObject(source[key]) && Helpers.isObject(target[key])) {
+            Helpers.merge(target[key], source[key]);
+          } else {
+            target[key] = source[key];
+          }
+        }
+      }
+    });
+    return target;
   }
 
   /**
@@ -183,7 +264,7 @@ export class Helpers {
    * @returns {boolean} True if empty
    */
   static isEmpty(obj) {
-    throw new Error('isEmpty method not implemented');
+    return Object.keys(obj).length === 0;
   }
 
   /**
@@ -192,7 +273,7 @@ export class Helpers {
    * @returns {boolean} True if null or undefined
    */
   static isNullOrUndefined(value) {
-    throw new Error('isNullOrUndefined method not implemented');
+    return value === null || value === undefined;
   }
 
   /**
@@ -201,7 +282,7 @@ export class Helpers {
    * @returns {boolean} True if function
    */
   static isFunction(value) {
-    throw new Error('isFunction method not implemented');
+    return typeof value === 'function';
   }
 
   /**
@@ -210,7 +291,7 @@ export class Helpers {
    * @returns {boolean} True if object
    */
   static isObject(value) {
-    throw new Error('isObject method not implemented');
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
   }
 
   /**
@@ -219,7 +300,7 @@ export class Helpers {
    * @returns {boolean} True if array
    */
   static isArray(value) {
-    throw new Error('isArray method not implemented');
+    return Array.isArray(value);
   }
 
   /**
@@ -228,7 +309,7 @@ export class Helpers {
    * @returns {Array} Array
    */
   static toArray(iterable) {
-    throw new Error('toArray method not implemented');
+    return Array.from(iterable);
   }
 
   /**
@@ -237,7 +318,7 @@ export class Helpers {
    * @returns {Array} Deduplicated array
    */
   static unique(array) {
-    throw new Error('unique method not implemented');
+    return [...new Set(array)];
   }
 
   /**
@@ -246,7 +327,12 @@ export class Helpers {
    * @returns {Array} Shuffled array
    */
   static shuffle(array) {
-    throw new Error('shuffle method not implemented');
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
   }
 
   /**
@@ -255,7 +341,7 @@ export class Helpers {
    * @returns {*} Random item
    */
   static random(array) {
-    throw new Error('random method not implemented');
+    return array[Math.floor(Math.random() * array.length)];
   }
 
   /**
@@ -266,7 +352,7 @@ export class Helpers {
    * @returns {number} Clamped value
    */
   static clamp(value, min, max) {
-    throw new Error('clamp method not implemented');
+    return Math.min(Math.max(value, min), max);
   }
 
   /**
@@ -276,7 +362,7 @@ export class Helpers {
    * @returns {number} Random number
    */
   static randomBetween(min, max) {
-    throw new Error('randomBetween method not implemented');
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   /**
@@ -286,7 +372,7 @@ export class Helpers {
    * @returns {number} Rounded number
    */
   static roundTo(number, decimals) {
-    throw new Error('roundTo method not implemented');
+    return Number(Math.round(number + 'e' + decimals) + 'e-' + decimals);
   }
 
   /**
@@ -296,7 +382,7 @@ export class Helpers {
    * @returns {number} Percentage
    */
   static percentage(value, total) {
-    throw new Error('percentage method not implemented');
+    return (value / total) * 100;
   }
 
   /**
@@ -305,7 +391,7 @@ export class Helpers {
    * @returns {Promise} Promise
    */
   static sleep(ms) {
-    throw new Error('sleep method not implemented');
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
@@ -315,8 +401,17 @@ export class Helpers {
    * @param {number} delay - Delay between attempts
    * @returns {Promise} Promise
    */
-  static retry(fn, attempts = 3, delay = 1000) {
-    throw new Error('retry method not implemented');
+  static async retry(fn, attempts = 3, delay = 1000) {
+    let lastError;
+    for (let i = 0; i < attempts; i++) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error;
+        if (i < attempts - 1) await Helpers.sleep(delay);
+      }
+    }
+    throw lastError;
   }
 
   /**
@@ -326,6 +421,9 @@ export class Helpers {
    * @returns {Promise} Promise with timeout
    */
   static withTimeout(promise, timeout) {
-    throw new Error('withTimeout method not implemented');
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Operation timed out')), timeout)
+    );
+    return Promise.race([promise, timeoutPromise]);
   }
 }

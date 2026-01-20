@@ -5,19 +5,22 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
-  
+
   return {
     entry: './src/main.js',
     output: {
-      filename: isProduction ? 'bpmn-analyzer.[contenthash].js' : 'bpmn-analyzer.js',
+      filename: isProduction ? 'bpmn-analyzer.[contenthash].js' : '[name].js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
     },
+    cache: false,
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     devServer: {
-      static: {
-        directory: path.join(__dirname, 'dist'),
-      },
+      static: [
+        { directory: path.join(__dirname, 'dist') },
+        { directory: path.join(__dirname, 'public') },
+        { directory: path.join(__dirname, 'samples'), publicPath: '/samples' }
+      ],
       compress: true,
       port: 9000,
       hot: true,
