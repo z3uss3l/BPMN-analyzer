@@ -1,0 +1,13 @@
+Case ID,Activity,Timestamp
+101,Bestellung erhalten,2026-01-21T08:00:00Z
+101,Zahlung prüfen,2026-01-21T08:05:00Z
+102,Bestellung erhalten,2026-01-21T08:10:00Z
+101,Lager prüfen,2026-01-21T08:12:00Z
+102,Zahlung prüfen,2026-01-21T08:15:00Z
+101,Versand vorbereiten,2026-01-21T08:20:00Z
+101,Ware versenden,2026-01-21T08:30:00Z
+102,Lager prüfen,2026-01-21T08:35:00Z
+103,Bestellung erhalten,2026-01-21T09:00:00Z
+102,Versand vorbereiten,2026-01-21T09:05:00Z
+103,Bestellung storniert,2026-01-21T09:10:00Z
+102,Ware versenden,2026-01-21T09:15:00Z

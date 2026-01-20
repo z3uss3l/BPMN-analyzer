@@ -1,0 +1,37 @@
+[
+    {
+        "caseId": "P001",
+        "activity": "Ticketsuche",
+        "timestamp": "2026-01-21T10:00:00Z"
+    },
+    {
+        "caseId": "P001",
+        "activity": "Flug auswählen",
+        "timestamp": "2026-01-21T10:02:00Z"
+    },
+    {
+        "caseId": "P002",
+        "activity": "Ticketsuche",
+        "timestamp": "2026-01-21T10:05:00Z"
+    },
+    {
+        "caseId": "P001",
+        "activity": "Persönliche Daten",
+        "timestamp": "2026-01-21T10:06:00Z"
+    },
+    {
+        "caseId": "P001",
+        "activity": "Bezahlung",
+        "timestamp": "2026-01-21T10:10:00Z"
+    },
+    {
+        "caseId": "P002",
+        "activity": "Abgebrochen",
+        "timestamp": "2026-01-21T10:12:00Z"
+    },
+    {
+        "caseId": "P001",
+        "activity": "Ticket ausgestellt",
+        "timestamp": "2026-01-21T10:15:00Z"
+    }
+]
