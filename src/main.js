@@ -37,7 +37,6 @@ class BPMNApp {
         await initializeUI(this);
         this.setupEventListeners();
         this.setupProgressListeners();
-        this.loadSampleProcess();
 
         // Service Worker for PWA
         if ('serviceWorker' in navigator) {
