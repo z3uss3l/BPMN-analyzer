@@ -1,0 +1,3 @@
+@echo off
+echo Starting BPMN Analyzer Pro...
+npm start
