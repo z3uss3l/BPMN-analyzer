@@ -202,7 +202,7 @@ class BPMNApp {
         }
 
         // Sample button
-        const sampleBtn = document.querySelector('.btn-secondary');
+        const sampleBtn = document.getElementById('load-sample-btn');
         if (sampleBtn) {
             sampleBtn.addEventListener('click', async () => {
                 try {
@@ -213,14 +213,13 @@ class BPMNApp {
                     const file = new File([blob], 'sample-process.bpmn', { type: 'text/xml' });
                     await this.loadProcess(file);
                 } catch (error) {
-                    // console.error('Sample loading failed:', error);
                     this.showError('Sample-Datei konnte nicht geladen werden');
                 }
             });
         }
 
         // Export button
-        const exportBtn = document.querySelector('.btn-primary');
+        const exportBtn = document.getElementById('export-btn');
         if (exportBtn) {
             exportBtn.addEventListener('click', () => {
                 if (!this.state.currentProcess) {
@@ -314,21 +313,12 @@ class BPMNApp {
 
             this.state.currentProcess = {
                 xml: '<!-- Discovered Process -->',
-                graph: miningResult.graph
+                graph: miningResult.graph,
+                elements: miningResult.graph.nodes
             };
 
-            const analysisResults = {
-                basic: {
-                    elementCount: miningResult.graph.nodes.size,
-                    taskCount: Array.from(miningResult.graph.nodes.values()).filter(n => n.type === 'task').length,
-                    pathCount: miningResult.metadata.variants
-                },
-                complexity: { mcCabe: miningResult.graph.edges.size - miningResult.graph.nodes.size + 2 },
-                performance: { estimatedDuration: 0, bottlenecks: [], resourceUtilization: 0 },
-                compliance: { overallScore: 0, failedChecks: 0 }
-            };
-
-            this.state.analysisResults = analysisResults;
+            const analysis = await this.analyzer.analyze(this.state.currentProcess);
+            this.state.analysisResults = analysis;
 
             await this.vizEngine.createVisualization(this.state.currentProcess);
             updateDashboard(this.state);
@@ -362,21 +352,12 @@ class BPMNApp {
 
             this.state.currentProcess = {
                 xml: '<!-- System Info Process -->',
-                graph: miningResult.graph
+                graph: miningResult.graph,
+                elements: miningResult.graph.nodes
             };
 
-            const analysisResults = {
-                basic: {
-                    elementCount: miningResult.graph.nodes.size,
-                    taskCount: miningResult.graph.nodes.size,
-                    pathCount: 1
-                },
-                complexity: { mcCabe: 1 },
-                performance: { estimatedDuration: 0, bottlenecks: [], resourceUtilization: 0 },
-                compliance: { overallScore: 100, failedChecks: 0 }
-            };
-
-            this.state.analysisResults = analysisResults;
+            const analysis = await this.analyzer.analyze(this.state.currentProcess);
+            this.state.analysisResults = analysis;
 
             await this.vizEngine.createVisualization(this.state.currentProcess);
             updateDashboard(this.state);

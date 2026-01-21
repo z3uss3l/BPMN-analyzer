@@ -249,20 +249,67 @@ export class AnalysisEngine {
         return [];
     }
 
-    checkISO9001(_process) {
-        return { name: 'ISO 9001:2015', passed: true, score: 85 };
+    checkISO9001(process) {
+        const graph = process.graph;
+        const nodeValues = graph.nodes instanceof Map ? Array.from(graph.nodes.values()) : Object.values(graph.nodes || {});
+
+        let score = 0;
+        const checks = [];
+
+        // Check 1: Start Event
+        const hasStart = graph.startEvents?.length > 0;
+        if (hasStart) score += 25;
+        checks.push({ name: 'Start-Ereignis vorhanden', passed: hasStart });
+
+        // Check 2: End Event
+        const hasEnd = graph.endEvents?.length > 0;
+        if (hasEnd) score += 25;
+        checks.push({ name: 'End-Ereignis vorhanden', passed: hasEnd });
+
+        // Check 3: Process Complexity (Min Tasks)
+        const hasMinTasks = nodeValues.filter(n => n.type && n.type.includes('Task')).length >= 2;
+        if (hasMinTasks) score += 25;
+        checks.push({ name: 'Minimale Prozess-Tiefe', passed: hasMinTasks });
+
+        // Check 4: Naming (Tasks have names)
+        const allNamed = nodeValues.filter(n => n.type && n.type.includes('Task')).every(n => n.name && n.name !== n.id);
+        if (allNamed) score += 25;
+        checks.push({ name: 'Konsistente Benennung', passed: allNamed });
+
+        return {
+            name: 'ISO 9001:2015',
+            passed: score >= 80,
+            score,
+            details: checks
+        };
     }
 
-    checkGDPR(_process) {
-        return { name: 'GDPR', passed: true, score: 90 };
+    checkGDPR(process) {
+        // Mock logic: check for "data", "user", "personal" in task names
+        const nodeValues = process.graph.nodes instanceof Map ? Array.from(process.graph.nodes.values()) : Object.values(process.graph.nodes || {});
+        const sensitiveDataMentioned = nodeValues.some(n =>
+            n.name && /daten|date|user|kunde|person/i.test(n.name)
+        );
+
+        return {
+            name: 'GDPR / DS-GVO',
+            passed: !sensitiveDataMentioned || true, // Simplified
+            score: sensitiveDataMentioned ? 75 : 100
+        };
     }
 
-    checkSOX(_process) {
-        return { name: 'SOX', passed: true, score: 100 };
+    checkSOX(process) {
+        // Check for approvals/gateways
+        const hasControl = (process.graph.gateways || []).length > 0;
+        return {
+            name: 'SOX Compliance',
+            passed: hasControl,
+            score: hasControl ? 100 : 50
+        };
     }
 
     checkAccessibility(_process) {
-        return { name: 'Accessibility', passed: true, score: 95 };
+        return { name: 'Barrierefreiheit (WCAG)', passed: true, score: 95 };
     }
 
     calculateComplianceScore(checks) {
