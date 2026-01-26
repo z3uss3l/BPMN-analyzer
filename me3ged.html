@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonas Zeußel | Enterprise-Grade Digital Transformation & BPM Excellence</title>
+    <meta name="description" content="SLSA Level 3 compliant. AI/LLM-powered BPA, Microservices, Self-Healing Systems. Von Personal bis Military Grade Security.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0a0a0c',
+                        card: '#131316',
+                        border: '#2a2a30',
+                        primary: '#6d28d9',
+                        'primary-dark': '#5b21b6',
+                        accent: '#2dd4bf',
+                        'accent-dark': '#14b8a6',
+                        warning: '#f59e0b',
+                        danger: '#ef4444',
+                        success: '#10b981',
+                        muted: '#9ca3af',
+                        text: '#e5e7eb'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            background-color: #0a0a0c;
+            color: #e5e7eb;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(109, 40, 217, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(45, 212, 191, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+            overflow-x: hidden;
+        }
+        
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #2a2a30; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6d28d9; }
+
+        .glass-panel {
+            background: rgba(19, 19, 22, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        
+        .glass-panel-light {
+            background: rgba(19, 19, 22, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ascii-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.25rem, 0.8vw + 0.1rem, 0.45rem);
+            line-height: 0.9;
+            color: #2dd4bf;
+            text-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
+            letter-spacing: -0.04em;
+            white-space: pre;
+            overflow: hidden;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 640px) {
+            .ascii-logo {
+                font-size: clamp(0.2rem, 2vw, 0.35rem);
+                line-height: 0.85;
+            }
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 50%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+        }
+
+        .gradient-accent {
+            background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+        }
+
+        .gradient-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(109, 40, 217, 0.4), 0 0 60px rgba(45, 212, 191, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+            box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 25px rgba(109, 40, 217, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+        }
+        
+        .btn-accent:hover {
+            box-shadow: 0 6px 25px rgba(45, 212, 191, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.25rem !important; }
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #6d28d9;
+            box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2);
+        }
+
+        .code-block {
+            background: #050505;
+            border-left: 3px solid #2dd4bf;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .tab-button {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6d28d9, #2dd4bf);
+            transition: width 0.3s ease;
+        }
+
+        .tab-button.active::after {
+            width: 100%;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-personal {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .badge-enterprise {
+            background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+            color: white;
+        }
+
+        .badge-government {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .badge-military {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .badge-slsa {
+            background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+            color: #0a0a0c;
+            font-weight: 700;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(45, 212, 191, 0.1);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #2dd4bf;
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(45, 212, 191, 0.2);
+            border-color: #2dd4bf;
+            transform: translateY(-2px);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        .module-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .module-card:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white">
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0 overflow-hidden">
+                    <pre class="ascii-logo hidden sm:block">:::'##:'########:::'###:::::'######::
+::: ##::..... ##:::'## ##:::'##... ##:
+::: ##:::::: ##:::'##:. ##:: ##:::..::
+'##::: ##::: ##:::'##:::. ##:. ######::
+ ##::: ##:: ##:::: #########::..... ##:
+. ######::: ##:::: ##.... ##:'##::: ##:
+:......:::####:::: ##:::: ##:. ######::</pre>
+                    <div class="flex flex-col justify-center sm:border-l sm:border-border sm:pl-4">
+                        <span class="font-bold text-sm sm:text-base tracking-tight text-white">Jonas Zeußel</span>
+                        <span class="text-accent text-[10px] sm:text-xs uppercase tracking-widest font-mono">BPM · AI · Security</span>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
+                    <a href="#security" class="hover:text-accent transition-colors">Security Levels</a>
+                    <a href="#packages" class="hover:text-accent transition-colors">Pakete</a>
+                    <a href="#modules" class="hover:text-accent transition-colors">Module</a>
+                    <a href="#stack" class="hover:text-accent transition-colors">Tech Stack</a>
+                    <a href="#bpa" class="hover:text-accent transition-colors">BPA Excellence</a>
+                    <a href="#contact" class="btn-primary text-white px-4 py-2 rounded-lg font-semibold relative z-10">Kontakt</a>
+                </div>
+
+                <button class="lg:hidden p-2 text-text hover:text-accent transition-colors" onclick="toggleMobileMenu()">
+                    <i class="ph ph-list text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed top-16 right-0 bottom-0 w-64 glass-panel border-l border-border z-40 lg:hidden">
+        <div class="flex flex-col p-6 space-y-4">
+            <a href="#security" class="text-text hover:text-accent transition-colors py-2" onclick="toggleMobileMenu()">Security Levels</a>
+            <a href="#packages" class="text-text hover:text-accent transition-colors py-2" onclick="toggleMobileMenu()">Pakete</a>
+            <a href="#modules" class="text-text hover:text-accent transition-colors py-2" onclick="toggleMobileMenu()">Module</a>
+            <a href="#stack" class="text-text hover:text-accent transition-colors py-2" onclick="toggleMobileMenu()">Tech Stack</a>
+            <a href="#bpa" class="text-text hover:text-accent transition-colors py-2" onclick="toggleMobileMenu()">BPA Excellence</a>
+            <a href="#contact" class="btn-primary text-white px-4 py-2 rounded-lg font-semibold inline-block text-center" onclick="toggleMobileMenu()">Kontakt</a>
+        </div>
+    </div>
+📦 Teil 2 von 3: Hero, Security Levels, Pakete & Module
+<!-- Hero Section -->
+    <main class="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center animate-fade-in">
+            <!-- Security Badges -->
+            <div class="flex flex-wrap justify-center gap-3 mb-6">
+                <span class="security-badge badge-slsa">
+                    <i class="ph ph-shield-check"></i>
+                    SLSA Level 3
+                </span>
+                <span class="security-badge badge-personal">
+                    <i class="ph ph-user"></i>
+                    Personal
+                </span>
+                <span class="security-badge badge-enterprise">
+                    <i class="ph ph-buildings"></i>
+                    Enterprise
+                </span>
+                <span class="security-badge badge-government">
+                    <i class="ph ph-bank"></i>
+                    Government
+                </span>
+                <span class="security-badge badge-military">
+                    <i class="ph ph-shield-star"></i>
+                    Military
+                </span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 gradient-text">
+                Enterprise-Grade BPM<br class="sm:hidden" /> & Process Excellence
+            </h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg sm:text-xl text-muted leading-relaxed">
+                AI/LLM-powered Business Process Automation mit <span class="text-accent font-semibold">Self-Healing Microservices</span>, 
+                <span class="text-primary font-semibold">n8n/MCP Orchestration</span> und 
+                <span class="text-success font-semibold">Zero-Trust Security</span>. 
+                Von Open Source bis Military-Grade.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#packages" class="btn btn-primary text-white px-8 py-4 rounded-lg font-semibold text-lg w-full sm:w-auto text-center relative z-10">
+                    <i class="ph ph-package mr-2"></i>
+                    Pakete ansehen
+                </a>
+                <a href="#modules" class="btn btn-accent text-bg px-8 py-4 rounded-lg font-semibold text-lg w-full sm:w-auto text-center relative z-10">
+                    <i class="ph ph-squares-four mr-2"></i>
+                    Module-Katalog
+                </a>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6">
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-success hover-glow service-card">
+                    <div class="text-3xl sm:text-4xl font-bold text-white mb-2">99.99%</div>
+                    <div class="text-sm font-mono text-success">Uptime SLA</div>
+                    <div class="text-xs text-muted mt-2">Self-Healing</div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-accent hover-glow service-card">
+                    <div class="text-3xl sm:text-4xl font-bold text-white mb-2">&lt;200ms</div>
+                    <div class="text-sm font-mono text-accent">Response Time</div>
+                    <div class="text-xs text-muted mt-2">Auto-Scaling</div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-primary hover-glow service-card">
+                    <div class="text-3xl sm:text-4xl font-bold text-white mb-2">100%</div>
+                    <div class="text-sm font-mono text-primary">Open Source</div>
+                    <div class="text-xs text-muted mt-2">Keine Vendor Lock-ins</div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl border-t-2 border-warning hover-glow service-card">
+                    <div class="text-3xl sm:text-4xl font-bold text-white mb-2">24/7</div>
+                    <div class="text-sm font-mono text-warning">Monitoring</div>
+                    <div class="text-xs text-muted mt-2">AI-Powered Alerts</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Security Levels Section -->
+    <section id="security" class="py-16 sm:py-24 border-t border-border bg-card/30 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Security Compliance Levels</h2>
+                <p class="text-muted max-w-3xl mx-auto text-base sm:text-lg">
+                    Von persönlichen Projekten bis zu militärischer Infrastruktur – 
+                    <span class="text-accent font-semibold">SLSA Level 3</span> konformer Development & Build Process für alle Security-Anforderungen.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Personal -->
+                <div class="glass-panel p-6 rounded-xl hover:border-success/50 transition-all service-card border-l-4 border-success">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Personal</h3>
+                        <i class="ph ph-user text-3xl text-success"></i>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Für individuelle Entwickler und kleine Teams</p>
+                    <ul class="space-y-2 text-sm mb-4">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5 flex-shrink-0"></i>
+                            <span>HTTPS/TLS 1.3</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5 flex-shrink-0"></i>
+                            <span>OAuth 2.0 / JWT</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5 flex-shrink-0"></i>
+                            <span>Basic RBAC</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5 flex-shrink-0"></i>
+                            <span>Encrypted at Rest</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border">
+                        <div class="text-xs text-muted">Compliance</div>
+                        <div class="text-sm font-mono text-success">GDPR Ready</div>
+                    </div>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="glass-panel p-6 rounded-xl hover:border-primary/50 transition-all service-card border-l-4 border-primary">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Enterprise</h3>
+                        <i class="ph ph-buildings text-3xl text-primary"></i>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Für Unternehmen mit hohen Compliance-Anforderungen</p>
+                    <ul class="space-y-2 text-sm mb-4">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5 flex-shrink-0"></i>
+                            <span>Zero-Trust Architecture</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5 flex-shrink-0"></i>
+                            <span>mTLS Service Mesh</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5 flex-shrink-0"></i>
+                            <span>Advanced RBAC/ABAC</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5 flex-shrink-0"></i>
+                            <span>Audit Logging (SIEM)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5 flex-shrink-0"></i>
+                            <span>Secrets Management (Vault)</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border">
+                        <div class="text-xs text-muted">Compliance</div>
+                        <div class="text-sm font-mono text-primary">ISO 27001, SOC 2</div>
+                    </div>
+                </div>
+
+                <!-- Government -->
+                <div class="glass-panel p-6 rounded-xl hover:border-warning/50 transition-all service-card border-l-4 border-warning">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Government</h3>
+                        <i class="ph ph-bank text-3xl text-warning"></i>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Für öffentliche Verwaltung und Behörden</p>
+                    <ul class="space-y-2 text-sm mb-4">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5 flex-shrink-0"></i>
+                            <span>Air-Gapped Deployment</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5 flex-shrink-0"></i>
+                            <span>Hardware Security Modules</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5 flex-shrink-0"></i>
+                            <span>Multi-Level Security (MLS)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5 flex-shrink-0"></i>
+                            <span>Blockchain Audit Trail</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5 flex-shrink-0"></i>
+                            <span>On-Premise Only</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border">
+                        <div class="text-xs text-muted">Compliance</div>
+                        <div class="text-sm font-mono text-warning">FedRAMP, BSI IT-Grundschutz</div>
+                    </div>
+                </div>
+
+                <!-- Military -->
+                <div class="glass-panel p-6 rounded-xl hover:border-danger/50 transition-all service-card border-l-4 border-danger">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Military</h3>
+                        <i class="ph ph-shield-star text-3xl text-danger"></i>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Höchste Sicherheitsstufe für kritische Infrastruktur</p>
+                    <ul class="space-y-2 text-sm mb-4">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-danger mt-0.5 flex-shrink-0"></i>
+                            <span>Quantum-Resistant Crypto</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-danger mt-0.5 flex-shrink-0"></i>
+                            <span>Secure Enclaves (SGX/SEV)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-danger mt-0.5 flex-shrink-0"></i>
+                            <span>Formal Verification</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-danger mt-0.5 flex-shrink-0"></i>
+                            <span>Continuous Security Validation</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-danger mt-0.5 flex-shrink-0"></i>
+                            <span>Classified Data Handling</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border">
+                        <div class="text-xs text-muted">Compliance</div>
+                        <div class="text-sm font-mono text-danger">NATO RESTRICTED, VS-NfD</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLSA Compliance Note -->
+            <div class="mt-12 glass-panel p-6 sm:p-8 rounded-xl border-l-4 border-accent">
+                <div class="flex items-start gap-4">
+                    <i class="ph ph-shield-checkered text-accent text-4xl flex-shrink-0"></i>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-2">SLSA Level 3 Compliance</h4>
+                        <p class="text-muted mb-4">
+                            Supply Chain Levels for Software Artifacts (SLSA) ist ein Framework zur Sicherstellung der Integrität 
+                            von Software-Artefakten im gesamten Entwicklungs- und Build-Prozess.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="bg-bg/50 p-4 rounded-lg">
+                                <div class="font-bold text-accent mb-1">✓ Build Integrity</div>
+                                <p class="text-xs text-muted">Reproducible Builds, Signed Artifacts</p>
+                            </div>
+                            <div class="bg-bg/50 p-4 rounded-lg">
+                                <div class="font-bold text-accent mb-1">✓ Source Integrity</div>
+                                <p class="text-xs text-muted">Verified Commits, Code Review</p>
+                            </div>
+                            <div class="bg-bg/50 p-4 rounded-lg">
+                                <div class="font-bold text-accent mb-1">✓ Dependency Tracking</div>
+                                <p class="text-xs text-muted">SBOM Generation, Vulnerability Scanning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Packages Section -->
+    <section id="packages" class="py-16 sm:py-24 border-t border-border px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Ganzheitliche Service-Pakete</h2>
+                <p class="text-muted max-w-3xl mx-auto text-base sm:text-lg">
+                    Von <span class="text-success font-semibold">Basis-Automatisierung</span> bis 
+                    <span class="text-danger font-semibold">Premium-Transformation</span>. 
+                    Modular, skalierbar, open-source-first.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Basis Paket -->
+                <div class="glass-panel p-6 rounded-xl hover:border-success/50 transition-all service-card">
+                    <div class="mb-4">
+                        <div class="inline-block px-3 py-1 bg-success/20 text-success rounded-full text-xs font-mono mb-3">BASIS</div>
+                        <h3 class="text-2xl font-bold text-white">Quick Start</h3>
+                        <div class="text-3xl font-bold gradient-success bg-clip-text text-transparent mt-2">€5.900</div>
+                        <div class="text-xs text-muted">einmalig, zzgl. MwSt.</div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Perfekt für erste Automatisierungen und POCs</p>
+                    <ul class="space-y-2 text-sm mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5"></i>
+                            <span>n8n Workflow Automation Setup</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5"></i>
+                            <span>3 automatisierte Prozesse</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5"></i>
+                            <span>Basic Monitoring (Prometheus)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5"></i>
+                            <span>Docker/Docker-Compose</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-success mt-0.5"></i>
+                            <span>Dokumentation & Runbooks</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border text-xs text-muted">
+                        <strong>Dauer:</strong> 2-3 Wochen<br>
+                        <strong>Security:</strong> Personal Level
+                    </div>
+                </div>
+
+                <!-- Professional Paket -->
+                <div class="glass-panel p-6 rounded-xl hover:border-primary/50 transition-all service-card border-t-2 border-primary">
+                    <div class="mb-4">
+                        <div class="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-mono mb-3">PROFESSIONAL</div>
+                        <h3 class="text-2xl font-bold text-white">Microservices</h3>
+                        <div class="text-3xl font-bold gradient-primary bg-clip-text text-transparent mt-2">€19.900</div>
+                        <div class="text-xs text-muted">einmalig, zzgl. MwSt.</div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Enterprise-ready mit Spring Boot & Kubernetes</p>
+                    <ul class="space-y-2 text-sm mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>Spring Boot Microservices (3-5)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>Kubernetes Orchestration</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>CI/CD Pipeline (GitLab/GitHub)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>Advanced Monitoring Stack</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>Test-Driven Development Setup</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-primary mt-0.5"></i>
+                            <span>Auto-Scaling Configuration</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border text-xs text-muted">
+                        <strong>Dauer:</strong> 1-2 Monate<br>
+                        <strong>Security:</strong> Enterprise Level
+                    </div>
+                </div>
+
+                <!-- Business Paket -->
+                <div class="glass-panel p-6 rounded-xl hover:border-accent/50 transition-all service-card">
+                    <div class="mb-4">
+                        <div class="inline-block px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-mono mb-3">BUSINESS</div>
+                        <h3 class="text-2xl font-bold text-white">AI-Powered BPM</h3>
+                        <div class="text-3xl font-bold gradient-accent bg-clip-text text-transparent mt-2">€39.900</div>
+                        <div class="text-xs text-muted">einmalig, zzgl. MwSt.</div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Intelligente Prozessautomatisierung mit LLM</p>
+                    <ul class="space-y-2 text-sm mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>Camunda/Zeebe BPM Engine</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>LLM Integration (Claude/GPT)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>MCP Protocol Implementation</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>Self-Healing Mechanisms</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>Resilience Patterns (Hibernate)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>Zapier/Make Protocol Adapters</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-accent mt-0.5"></i>
+                            <span>AI-Powered Process Mining</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border text-xs text-muted">
+                        <strong>Dauer:</strong> 2-4 Monate<br>
+                        <strong>Security:</strong> Enterprise/Government
+                    </div>
+                </div>
+
+                <!-- Premium Paket -->
+                <div class="glass-panel p-6 rounded-xl hover:border-warning/50 transition-all service-card border-t-2 border-warning">
+                    <div class="mb-4">
+                        <div class="inline-block px-3 py-1 bg-warning/20 text-warning rounded-full text-xs font-mono mb-3">PREMIUM</div>
+                        <h3 class="text-2xl font-bold text-white">Full Transformation</h3>
+                        <div class="text-3xl font-bold text-warning mt-2">€69.900+</div>
+                        <div class="text-xs text-muted">nach Aufwand, zzgl. MwSt.</div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Complete Digital Excellence Transformation</p>
+                    <ul class="space-y-2 text-sm mb-6">
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Alles aus Business +</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Zero-Trust Architecture</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Multi-Cloud/Hybrid Setup</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Advanced AI/ML Pipelines</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Custom Protocol Adapters</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>24/7 Managed Services (Optional)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph ph-check text-warning mt-0.5"></i>
+                            <span>Dedicated Support Team</span>
+                        </li>
+                    </ul>
+                    <div class="pt-4 border-t border-border text-xs text-muted">
+                        <strong>Dauer:</strong> 3-6 Monate+<br>
+                        <strong>Security:</strong> Bis Military Grade
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package Comparison Note -->
+            <div class="mt-12 glass-panel p-6 rounded-xl border-l-4 border-primary">
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-info text-primary text-2xl flex-shrink-0"></i>
+                    <div class="text-sm text-muted">
+                        <strong class="text-white block mb-2">💡 Modulares Pricing</strong>
+                        Alle Pakete sind individuell anpassbar. Kombinieren Sie Module aus dem Katalog oder 
+                        buchen Sie einzelne Leistungen. Hybrid-Modelle (retainer + project-based) möglich.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Module Catalog Section -->
+    <section id="modules" class="py-16 sm:py-24 border-t border-border bg-card/30 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Modularer Service-Katalog</h2>
+                <p class="text-muted max-w-3xl mx-auto text-base sm:text-lg">
+                    Einzeln buchbare Module für maximale Flexibilität. 
+                    Kombinieren Sie passende Leistungen für Ihre Anforderungen.
+                </p>
+            </div>
+
+            <div class="feature-grid">
+                <!-- Workflow Automation -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-git-branch text-accent text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Workflow Automation</h4>
+                            <div class="text-xs text-accent font-mono">€1.200 - €4.500</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• n8n/Make/Zapier Integration</li>
+                        <li>• Custom Workflow Design</li>
+                        <li>• API Orchestration</li>
+                        <li>• Event-Driven Architecture</li>
+                    </ul>
+                </div>
+
+                <!-- Microservices Development -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-cube text-primary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Microservices Dev</h4>
+                            <div class="text-xs text-primary font-mono">€2.500 - €8.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Spring Boot Development</li>
+                        <li>• RESTful API Design</li>
+                        <li>• GraphQL Implementation</li>
+                        <li>• Service Mesh (Istio)</li>
+                    </ul>
+                </div>
+
+                <!-- Kubernetes Setup -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-package text-primary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Kubernetes Setup</h4>
+                            <div class="text-xs text-primary font-mono">€3.500 - €9.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Cluster Configuration</li>
+                        <li>• Helm Charts Development</li>
+                        <li>• Auto-Scaling Policies</li>
+                        <li>• HA & Disaster Recovery</li>
+                    </ul>
+                </div>
+
+                <!-- CI/CD Pipeline -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-success/20 flex items-center justify-center">
+                            <i class="ph ph-git-commit text-success text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">CI/CD Pipeline</h4>
+                            <div class="text-xs text-success font-mono">€1.800 - €5.500</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• GitOps with ArgoCD/Flux</li>
+                        <li>• Automated Testing (TDD)</li>
+                        <li>• Security Scanning (SAST/DAST)</li>
+                        <li>• Blue-Green/Canary Deploys</li>
+                    </ul>
+                </div>
+
+                <!-- Monitoring & Observability -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-chart-line text-accent text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Monitoring Stack</h4>
+                            <div class="text-xs text-accent font-mono">€2.200 - €6.500</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Prometheus + Grafana</li>
+                        <li>• OpenTelemetry Integration</li>
+                        <li>• Custom Dashboards</li>
+                        <li>• AI-Powered Alerting</li>
+                    </ul>
+                </div>
+
+                <!-- Self-Healing Systems -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-success/20 flex items-center justify-center">
+                            <i class="ph ph-first-aid text-success text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Self-Healing</h4>
+                            <div class="text-xs text-success font-mono">€3.000 - €9.500</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Resilience Patterns</li>
+                        <li>• Circuit Breakers</li>
+                        <li>• Auto-Remediation Scripts</li>
+                        <li>• Chaos Engineering</li>
+                    </ul>
+                </div>
+
+                <!-- BPM Engine Integration -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-flow-arrow text-primary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">BPM Engine</h4>
+                            <div class="text-xs text-primary font-mono">€4.500 - €12.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Camunda 8 / Zeebe Setup</li>
+                        <li>• BPMN 2.0 Modeling</li>
+                        <li>• Process Mining Integration</li>
+                        <li>• DMN Decision Tables</li>
+                    </ul>
+                </div>
+
+                <!-- AI/LLM Integration -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-brain text-accent text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">AI/LLM Integration</h4>
+                            <div class="text-xs text-accent font-mono">€5.000 - €15.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Claude/GPT API Integration</li>
+                        <li>• MCP Protocol Implementation</li>
+                        <li>• RAG (Retrieval-Augmented Gen)</li>
+                        <li>• Fine-Tuning & Prompting</li>
+                    </ul>
+                </div>
+
+                <!-- Database & Persistence -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-database text-primary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Data Layer</h4>
+                            <div class="text-xs text-primary font-mono">€2.800 - €8.500</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Hibernate/JPA Setup</li>
+                        <li>• PostgreSQL/MySQL Optimization</li>
+                        <li>• Redis Caching Layer</li>
+                        <li>• Event Sourcing/CQRS</li>
+                    </ul>
+                </div>
+
+                <!-- Security Hardening -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-danger/20 flex items-center justify-center">
+                            <i class="ph ph-shield-check text-danger text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Security Hardening</h4>
+                            <div class="text-xs text-danger font-mono">€3.500 - €12.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Zero-Trust Implementation</li>
+                        <li>• Secrets Management (Vault)</li>
+                        <li>• Penetration Testing</li>
+                        <li>• Compliance Audit Support</li>
+                    </ul>
+                </div>
+
+                <!-- Protocol Adapters -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-swap text-accent text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Protocol Adapters</h4>
+                            <div class="text-xs text-accent font-mono">€1.800 - €6.000</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Zapier Protocol Mapping</li>
+                        <li>• Make.com Integration</li>
+                        <li>• Custom REST/SOAP Adapters</li>
+                        <li>• Legacy System Bridges</li>
+                    </ul>
+                </div>
+
+                <!-- Training & Workshops -->
+                <div class="glass-panel p-6 rounded-xl module-card hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-warning/20 flex items-center justify-center">
+                            <i class="ph ph-chalkboard-teacher text-warning text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Training & Workshops</h4>
+                            <div class="text-xs text-warning font-mono">€1.500 - €4.000/Tag</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>• Kubernetes Bootcamp</li>
+                        <li>• Microservices Patterns</li>
+                        <li>• AI/LLM for Developers</li>
+                        <li>• BPM Best Practices</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Module Booking Note -->
+            <div class="mt-12 glass-panel p-6 rounded-xl border-l-4 border-accent">
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-puzzle-piece text-accent text-2xl flex-shrink-0"></i>
+                    <div>
+                        <h4 class="font-bold text-white mb-2">Flexible Kombinationen</h4>
+                        <p class="text-sm text-muted mb-3">
+                            Alle Module sind einzeln oder als Bundle buchbar. Preise verstehen sich als Richtwerte und 
+                            werden individuell nach Komplexität kalkuliert.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs px-3 py-1 bg-success/20 text-success rounded-full">10% Rabatt ab 3 Modulen</span>
+                            <span class="text-xs px-3 py-1 bg-primary/20 text-primary rounded-full">15% Rabatt ab 5 Modulen</span>
+                            <span class="text-xs px-3 py-1 bg-accent/20 text-accent rounded-full">Retainer-Modelle verfügbar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="stack" class="py-16 sm:py-24 border-t border-border px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Technology Stack & Ecosystem</h2>
+                <p class="text-muted max-w-3xl mx-auto text-base sm:text-lg">
+                    100% Open Source, battle-tested, cloud-native. 
+                    <span class="text-accent font-semibold">Keine Vendor Lock-ins</span>, 
+                    freie Lizenzen, optimale Performance.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Core Backend -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-code text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Core Backend</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Spring Boot 3.x</span>
+                        <span class="tech-tag">Spring Cloud</span>
+                        <span class="tech-tag">Spring Security</span>
+                        <span class="tech-tag">Hibernate/JPA</span>
+                        <span class="tech-tag">Maven/Gradle</span>
+                    </div>
+                </div>
+
+                <!-- Orchestration & BPM -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-flow-arrow text-accent text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">BPM & Workflow</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Camunda 8</span>
+                        <span class="tech-tag">Zeebe</span>
+                        <span class="tech-tag">n8n</span>
+                        <span class="tech-tag">BPMN 2.0</span>
+                        <span class="tech-tag">DMN</span>
+                    </div>
+                </div>
+
+                <!-- Container & Orchestration -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-package text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Container Platform</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Helm</span>
+                        <span class="tech-tag">Istio/Linkerd</span>
+                        <span class="tech-tag">ArgoCD</span>
+                    </div>
+                </div>
+
+                <!-- Observability -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-chart-line text-accent text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Observability</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Prometheus</span>
+                        <span class="tech-tag">Grafana</span>
+                        <span class="tech-tag">Elasticsearch</span>
+                        <span class="tech-tag">Logstash</span>
+                        <span class="tech-tag">OpenTelemetry</span>
+                        <span class="tech-tag">Jaeger</span>
+                    </div>
+                </div>
+
+                <!-- Data & Messaging -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-database text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Data & Messaging</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">Apache Kafka</span>
+                        <span class="tech-tag">RabbitMQ</span>
+                        <span class="tech-tag">MongoDB</span>
+                    </div>
+                </div>
+
+                <!-- AI & LLM -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <i class="ph ph-brain text-accent text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">AI & LLM</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">Claude API</span>
+                        <span class="tech-tag">OpenAI GPT</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">MCP Protocol</span>
+                        <span class="tech-tag">Vector DBs</span>
+                    </div>
+                </div>
+
+                <!-- Security & Secrets -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-danger/20 flex items-center justify-center">
+                            <i class="ph ph-shield-check text-danger text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Security</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">HashiCorp Vault</span>
+                        <span class="tech-tag">OAuth 2.0/OIDC</span>
+                        <span class="tech-tag">Keycloak</span>
+                        <span class="tech-tag">cert-manager</span>
+                        <span class="tech-tag">OWASP Tools</span>
+                    </div>
+                </div>
+
+                <!-- CI/CD & GitOps -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-success/20 flex items-center justify-center">
+                            <i class="ph ph-git-branch text-success text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">CI/CD & GitOps</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">GitLab CI/CD</span>
+                        <span class="tech-tag">GitHub Actions</span>
+                        <span class="tech-tag">ArgoCD</span>
+                        <span class="tech-tag">Flux</span>
+                        <span class="tech-tag">SonarQube</span>
+                    </div>
+                </div>
+
+                <!-- Testing -->
+                <div class="glass-panel-light p-6 rounded-xl hover-glow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            <i class="ph ph-test-tube text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Testing & QA</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="tech-tag">JUnit 5</span>
+                        <span class="tech-tag">TestNG</span>
+                        <span class="tech-tag">Mockito</span>
+                        <span class="tech-tag">Testcontainers</span>
+                        <span class="tech-tag">K6/Gatling</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BPA Excellence Section -->
+    <section id="bpa" class="py-16 sm:py-24 border-t border-border bg-card/30 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">BPA & Process Excellence 2025</h2>
+                <p class="text-muted max-w-3xl mx-auto text-base sm:text-lg">
+                    State-of-the-Art Business Process Automation mit KI, selbstheilenden Systemen und innovativen Workflow-Konzepten.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Current State Analysis -->
+                <div class="glass-panel p-6 sm:p-8 rounded-xl">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="ph ph-trend-up text-accent"></i>
+                        Aktuelle Situation im BPA-Markt
+                    </h3>
+                    <div class="space-y-4 text-sm text-muted">
+                        <div class="bg-bg/50 p-4 rounded-lg">
+                            <strong class="text-white block mb-2">🎯 Kerntrends 2025</strong>
+                            <ul class="space-y-1 ml-4">
+                                <li>• Hyperautomation mit AI/LLM (80% der Unternehmen priorisieren KI-Integration)</li>
+                                <li>• Process Mining wird zum Standard (Celonis, Signavio, Custom)</li>
+                                <li>• Low-Code/No-Code explodiert (n8n, Make, Zapier)</li>
+                                <li>• Event-Driven Architecture dominiert moderne Systeme</li>
+                            </ul>
+                        </div>
+                        <div class="bg-bg/50 p-4 rounded-lg">
+                            <strong class="text-white block mb-2">⚡ Technologie-Shift</strong>
+                            <ul class="space-y-1 ml-4">
+                                <li>• Von monolithischen BPM-Suites zu modularen Microservices</li>
+                                <li>• MCP (Model Context Protocol) ermöglicht LLM-Orchestration</li>
+                                <li>• Kubernetes-native Workflow Engines (Zeebe, Temporal)</li>
+                                <li>• GitOps für Process-as-Code</li>
+                            </ul>
+                        </div>
+                        <div class="bg-bg/50 p-4 rounded-lg">
+                            <strong class="text-white block mb-2">🔒 Compliance-Druck steigt</strong>
+                            <ul class="space-y-1 ml-4">
+                                <li>• SLSA Framework für Software Supply Chain Security</li>
+                                <li>• NIS2-Richtlinie fordert Resilienz</li>
+                                <li>• AI Act reguliert KI-Einsatz in kritischen Prozessen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Innovation & Solutions -->
+                <div class="glass-panel p-6 sm:p-8 rounded-xl">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="ph ph-lightbulb text-primary"></i>
+                        Innovative Lösungsansätze
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-primary/10 border-l-4 border-primary p-4 rounded-r-lg">
+                            <strong class="text-white block mb-2">AI-Powered Process Discovery</strong>
+                            <p class="text-sm text-muted mb-2">
+                                LLMs analysieren Logs, Emails und Tickets automatisch und generieren BPMN-Modelle. 
+                                Selbstlernende Systeme erkennen Ineffizienzen und schlagen Optimierungen vor.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="text-xs px-2 py-1 bg-primary/20 text-primary rounded">Claude Analysis</span>
+                                <span class="text-xs px-2 py-1 bg-primary/20 text-primary rounded">Auto-BPMN Gen</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-accent/10 border-l-4 border-accent p-4 rounded-r-lg">
+                            <strong class="text-white block mb-2">Self-Healing Workflows</strong>
+                            <p class="text-sm text-muted mb-2">
+                                Resilience Patterns (Circuit Breaker, Bulkhead) kombiniert mit AI-basierter Anomalieerkennung. 
+                                Automatische Rollbacks bei Fehlern, Predictive Scaling vor Peak-Zeiten.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="text-xs px-2 py-1 bg-accent/20 text-accent rounded">Auto-Remediation</span>
+                                <span class="text-xs px-2 py-1 bg-accent/20 text-accent rounded">Chaos Engineering</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-success/10 border-l-4 border-success p-4 rounded-r-lg">
+                            <strong class="text-white block mb-2">Universal Protocol Adapters</strong>
+                            <p class="text-sm text-muted mb-2">
+                                Mapping-Layer für Zapier, Make, n8n, REST, SOAP, GraphQL. 
+                                Legacy-Systeme werden über moderne APIs integriert ohne Code-Änderungen.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="text-xs px-2 py-1 bg-success/20 text-success rounded">REST/SOAP Bridge</span>
+                                <span class="text-xs px-2 py-1 bg-success/20 text-success rounded">GraphQL Gateway</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-warning/10 border-l-4 border-warning p-4 rounded-r-lg">
+                            <strong class="text-white block mb-2">Hybrid Orchestration</strong>
+                            <p class="text-sm text-muted mb-2">
+                                Kombination von Camunda (komplexe BPMN) + n8n (schnelle Automationen) + MCP (LLM-Orchestration). 
+                                Beste Tool für jeden Use Case, nahtlos integriert.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="text-xs px-2 py-1 bg-warning/20 text-warning rounded">Multi-Engine</span>
+                                <span class="text-xs px-2 py-1 bg-warning/20 text-warning rounded">Event-Driven</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Differentiators -->
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-panel p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-3">🚀</div>
+                    <h4 class="font-bold text-white mb-2">Performance</h4>
+                    <p class="text-xs text-muted">Sub-200ms Response, Auto-Scaling, CDN-Edge Optimization</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-3">🔒</div>
+                    <h4 class="font-bold text-white mb-2">Datensicherheit</h4>
+                    <p class="text-xs text-muted">Zero-Trust, E2E-Encryption, GDPR-compliant, Air-Gap Ready</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h4 class="font-bold text-white mb-2">Open Source</h4>
+                    <p class="text-xs text-muted">100% freie Lizenzen, keine Vendor Lock-ins, volle Kontrolle</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl text-center">
+                    <div class="text-4xl mb-3">⚡</div>
+                    <h4 class="font-bold text-white mb-2">Modular</h4>
+                    <p class="text-xs text-muted">Pay-as-you-grow, einzelne Module buchbar, keine Monolithen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 sm:py-24 border-t border-border px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 gradient-text">Kontakt & Beratung</h2>
+                <p class="text-muted max-w-2xl mx-auto text-base sm:text-lg">
+                    Kostenloses 30-minütiges Discovery Call. Wir analysieren Ihre Anforderungen und erstellen ein maßgeschneidertes Angebot.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Contact Info -->
+                <div class="glass-panel p-6 sm:p-8 rounded-xl">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="ph ph-address-book text-accent"></i>
+                        Kontaktinformationen
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <i class="ph ph-user text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">Jonas Zeußel</div>
+                                <div class="text-sm text-muted">Senior BPM & Microservices Architect</div>
+                                <div class="text-xs text-muted mt-1">Medieninformatik | 10+ Jahre Enterprise Experience</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                <i class="ph ph-envelope text-accent"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">Email</div>
+                                <a href="mailto:jonas.zeussel@gmail.com" class="text-sm text-accent hover:underline">
+                                    jonas.zeussel@gmail.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <i class="ph ph-phone text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">Telefon</div>
+                                <a href="tel:+49151156987XX" class="text-sm text-accent hover:underline">
+                                    +49 XXX XXXXXXX
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                <i class="ph ph-linkedin-logo text-accent"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">LinkedIn</div>
+                                <a href="https://www.linkedin.com/in/jonaszeussel" target="_blank" class="text-sm text-accent hover:underline">
+                                    linkedin.com/in/jonaszeussel
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <i class="ph ph-globe text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white">Website</div>
+                                <a href="https://www.jonaszeussel.de" target="_blank" class="text-sm text-accent hover:underline">
+                                    www.jonaszeussel.de
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking CTA -->
+                <div class="glass-panel p-6 sm:p-8 rounded-xl">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="ph ph-calendar-check text-accent"></i>
+                        Discovery Call buchen
+                    </h3>
+                    <p class="text-sm text-muted mb-6">
+                        In unserem kostenlosen Gespräch klären wir:
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start gap-2 text-sm">
+                            <i class="ph ph-check text-accent mt-0.5 flex-shrink-0"></i>
+                            <span class="text-muted">Ihre aktuellen Herausforderungen und Pain Points</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm">
+                            <i class="ph ph-check text-accent mt-0.5 flex-shrink-0"></i>
+                            <span class="text-muted">Potenziale für Automatisierung und Optimierung</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm">
+                            <i class="ph ph-check text-accent mt-0.5 flex-shrink-0"></i>
+                            <span class="text-muted">Passende Module und Pakete für Ihre Anforderungen</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm">
+                            <i class="ph ph-check text-accent mt-0.5 flex-shrink-0"></i>
+                            <span class="text-muted">Security-Level und Compliance-Anforderungen</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm">
+                            <i class="ph ph-check text-accent mt-0.5 flex-shrink-0"></i>
+                            <span class="text-muted">Roadmap und erste Schritte</span>
+                        </li>
+                    </ul>
+                    <a href="https://calendly.com/jonas-zeussel/discovery" target="_blank" class="btn btn-primary text-white px-6 py-4 rounded-lg font-semibold text-center block w-full text-base sm:text-lg relative z-10">
+                        <i class="ph ph-calendar-plus mr-2"></i>
+                        Jetzt Termin vereinbaren
+                    </a>
+                    <p class="text-xs text-muted text-center mt-4">
+                        Oder senden Sie eine Email an <a href="mailto:jonas.zeussel@gmail.com" class="text-accent hover:underline">jonas.zeussel@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Target Industries -->
+            <div class="mt-12 glass-panel p-6 sm:p-8 rounded-xl border-l-4 border-accent">
+                <h4 class="font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="ph ph-buildings text-accent"></i>
+                    Typische Branchen & Kundenprofile
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>FinTech & Banking</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>E-Commerce</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>HealthTech</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>SaaS Startups</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Industrie 4.0</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Öffentlicher Sektor</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Logistik</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Insurance</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Retail</span>
+                    </div>
+                    <div class="text-sm text-muted flex items-center gap-2">
+                        <i class="ph ph-check text-accent"></i>
+                        <span>Manufacturing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg"></div>
+                        <span class="font-bold tracking-tight">Jonas Zeußel</span>
+                    </div>
+                    <p class="text-sm text-muted mb-2">BPM & Process Excellence</p>
+                    <p class="text-xs text-muted/70 mb-4">Enterprise-Grade Microservices & AI Integration</p>
+                    <div class="flex gap-3">
+                        <span class="security-badge badge-slsa text-xs">SLSA Level 3</span>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#security" class="text-sm text-muted hover:text-accent transition-colors">Security Levels</a></li>
+                        <li><a href="#packages" class="text-sm text-muted hover:text-accent transition-colors">Service-Pakete</a></li>
+                        <li><a href="#modules" class="text-sm text-muted hover:text-accent transition-colors">Modul-Katalog</a></li>
+                        <li><a href="#bpa" class="text-sm text-muted hover:text-accent transition-colors">BPA Excellence</a></li>
+                    </ul>
+                </div>
+
+                <!-- Technology -->
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Technology</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#stack" class="text-sm text-muted hover:text-accent transition-colors">Tech Stack</a></li>
+                        <li><span class="text-sm text-muted">Spring Boot & Kubernetes</span></li>
+                        <li><span class="text-sm text-muted">Camunda & n8n</span></li>
+                        <li><span class="text-sm text-muted">AI/LLM Integration</span></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Kontakt</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:jonas.zeussel@gmail.com" class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-2">
+                            <i class="ph ph-envelope"></i>
+                            Email senden
+                        </a></li>
+                        <li><a href="https://calendly.com/jonas-zeussel/discovery" target="_blank" class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-2">
+                            <i class="ph ph-calendar"></i>
+                            Termin buchen
+                        </a></li>
+                        <li><a href="https://www.linkedin.com/in/jonaszeussel" target="_blank" class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-2">
+                            <i class="ph ph-linkedin-logo"></i>
+                            LinkedIn
+                        </a></li>
+                        <li><a href="https://www.jonaszeussel.de" target="_blank" class="text-sm text-muted hover:text-accent transition-colors flex items-center gap-2">
+                            <i class="ph ph-globe"></i>
+                            Website
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-border">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted">
+                    <div class="text-center sm:text-left">
+                        <p class="mb-1">© 2025 Jonas Zeußel. Alle Rechte vorbehalten.</p>
+                        <p class="text-xs text-muted/70">Stand: Dezember 2024 | Alle Preise zzgl. MwSt.</p>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-4 text-xs">
+                        <span class="text-muted/70">100% Open Source</span>
+                        <span class="text-muted/70">•</span>
+                        <span class="text-muted/70">SLSA Level 3</span>
+                        <span class="text-muted/70">•</span>
+                        <span class="text-muted/70">GDPR Compliant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-primary rounded-full shadow-lg opacity-0 pointer-events-none transition-all hover:bg-primary-dark hover:scale-110 z-40 flex items-center justify-center" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="ph ph-arrow-up text-white text-xl"></i>
+    </button>
+
+    <script>
+        // ==================== MOBILE MENU ====================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobile-menu');
+            const menuButton = document.querySelector('button[onclick="toggleMobileMenu()"]');
+            if (menu.classList.contains('active') && !menu.contains(e.target) && !menuButton.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // ==================== BACK TO TOP BUTTON ====================
+        window.addEventListener('scroll', () => {
+            const backToTop = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.style.opacity = '1';
+                backToTop.style.pointerEvents = 'auto';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.pointerEvents = 'none';
+            }
+        });
+
+        // ==================== SMOOTH SCROLL ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offset = 80;
+                    const targetPosition = targetElement.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // ==================== SCROLL ANIMATIONS ====================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.service-card, .module-card');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // ==================== PERFORMANCE OPTIMIZATION ====================
+        if ('loading' in HTMLImageElement.prototype) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.dataset.src;
+            });
+        }
+
+        // ==================== CONSOLE BRANDING ====================
+        console.log('%c🚀 Jonas Zeußel DXaaS Platform', 'color: #2dd4bf; font-size: 18px; font-weight: bold; text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);');
+        console.log('%c🔒 SLSA Level 3 Compliant | Enterprise-Grade Security', 'color: #6d28d9; font-size: 12px;');
+        console.log('%c⚡ Spring Boot • Kubernetes • AI/LLM • n8n • Camunda', 'color: #10b981; font-size: 11px;');
+        console.log('%c📧 Kontakt: jonas.zeussel@example.com', 'color: #9ca3af; font-size: 10px;');
+    </script>
+</body>
+</html>
