@@ -201,8 +201,7 @@ Dieses Projekt steht unter der **MIT-Lizenz** - siehe [LICENSE](LICENSE) Datei f
 ## 📞 Kontakt
 
 - **Author**: Jonas Zeußel
-- **Repository**: [GitHub Repository](https://github.com/yourusername/bpmn-analyzer-pro)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/bpmn-analyzer-pro/issues)
+- **My Service**: [BPA Excellence](https://rawcdn.githack.com/z3uss3l/BPMN-analyzer/797d3a0875cc30fea7aba1ee5524da922a44ca1c/me3ged.html)
 
 ---
 
