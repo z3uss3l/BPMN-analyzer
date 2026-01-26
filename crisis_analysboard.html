@@ -1,0 +1,1206 @@
+g<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Systemische Unternehmenskrisen – Wissenschaftliche Analyse</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+    background: #f5f5f5;
+    padding: 30px 20px;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+    color: white;
+    padding: 40px 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header h1 {
+    font-size: 2em;
+    margin-bottom: 12px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    font-size: 1em;
+    opacity: 0.85;
+    font-weight: 300;
+}
+
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: #ecf0f1;
+    border-bottom: 1px solid #d5d8dc;
+}
+
+.stat {
+    background: white;
+    padding: 30px 25px;
+    text-align: center;
+    border-right: 1px solid #ecf0f1;
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 300;
+    color: #c0392b;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.stat-label {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.content {
+    padding: 50px;
+}
+
+/* SVG-Row: beide Diagramme nebeneinander, kleiner, responsiv */
+
+.svg-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 30px 0 40px;
+}
+
+.svg-box {
+    flex: 1 1 0;
+    min-width: 280px;
+    background: #fafafa;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    padding: 20px 22px;
+}
+
+.svg-box h2 {
+    font-size: 1.05em;
+    margin-bottom: 14px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.svg-container {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.svg-container svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+/* Restliches Layout */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #fafafa;
+    border-radius: 2px;
+    padding: 30px;
+    border: 1px solid #e8e8e8;
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 400;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 12px;
+}
+
+.icon {
+    font-size: 1.2em;
+    opacity: 0.7;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.timeline-number {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #34495e;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 0.9em;
+    margin-right: 18px;
+    flex-shrink: 0;
+}
+
+.timeline-content {
+    flex: 1;
+    background: white;
+    padding: 14px 18px;
+    border-radius: 2px;
+    border-left: 2px solid #34495e;
+}
+
+.timeline-title {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    font-size: 0.95em;
+}
+
+.timeline-desc {
+    font-size: 0.85em;
+    color: #7f8c8d;
+}
+
+.framework-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.framework-item {
+    background: white;
+    padding: 18px;
+    border-radius: 2px;
+    border-left: 3px solid #27ae60;
+}
+
+.framework-name {
+    font-weight: 500;
+    color: #27ae60;
+    margin-bottom: 6px;
+    font-size: 0.9em;
+}
+
+.framework-desc {
+    font-size: 0.8em;
+    color: #7f8c8d;
+}
+
+.pattern-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.pattern-table th {
+    background: #2c3e50;
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.85em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.pattern-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ecf0f1;
+    font-size: 0.85em;
+    color: #34495e;
+}
+
+.pattern-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pattern-table tr:hover {
+    background: #f8f9fa;
+}
+
+.warning-icon {
+    color: #c0392b;
+    font-weight: 400;
+    margin-right: 8px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.visual-flow {
+    background: linear-gradient(135deg, #ecf0f1 0%, #f8f9fa 100%);
+    padding: 40px;
+    border-radius: 2px;
+    margin: 30px 0;
+    border: 1px solid #e0e0e0;
+}
+
+.visual-flow h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 400;
+    font-size: 1.5em;
+}
+
+.flow-stages {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin: 30px 0;
+}
+
+.flow-stage {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.stage-box {
+    background: white;
+    padding: 20px 15px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin: 0 8px;
+    border: 2px solid;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stage-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stage-1 { border-color: #3498db; }
+.stage-2 { border-color: #e67e22; }
+.stage-3 { border-color: #e74c3c; }
+.stage-4 { border-color: #c0392b; }
+
+.stage-label {
+    font-weight: 500;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stage-desc {
+    font-size: 0.75em;
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+
+.arrow {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #bdc3c7;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+}
+
+.legal-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.legal-item {
+    background: white;
+    padding: 14px 16px;
+    border-radius: 2px;
+    font-size: 0.85em;
+    border-left: 3px solid #d68910;
+}
+
+.legal-code {
+    font-weight: 500;
+    color: #d68910;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.models-section {
+    background: white;
+    padding: 25px;
+    border-radius: 2px;
+    margin-top: 15px;
+    border: 1px solid #e8e8e8;
+}
+
+.model-item {
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fafafa;
+    border-radius: 2px;
+    border-left: 3px solid #8e44ad;
+}
+
+.model-item:last-child {
+    margin-bottom: 0;
+}
+
+.model-title {
+    font-weight: 500;
+    color: #8e44ad;
+    margin-bottom: 6px;
+    font-size: 0.95em;
+}
+
+.model-author {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.model-desc {
+    font-size: 0.85em;
+    color: #34495e;
+    line-height: 1.5;
+}
+
+.intervention-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.intervention-card {
+    background: white;
+    padding: 20px;
+    border-radius: 2px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.intervention-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.intervention-emoji {
+    font-size: 2em;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+.intervention-title {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.intervention-desc {
+    font-size: 0.75em;
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+
+.footer {
+    background: #2c3e50;
+    color: white;
+    padding: 40px 50px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 25px;
+}
+
+.footer-section h3 {
+    font-size: 0.95em;
+    margin-bottom: 12px;
+    opacity: 0.95;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-section p {
+    font-size: 0.85em;
+    opacity: 0.7;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+.footer-note {
+    text-align: center;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85em;
+    opacity: 0.6;
+    font-weight: 300;
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+    .container {
+        box-shadow: none;
+    }
+    .card:hover, .stage-box:hover, .intervention-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Systemische Unternehmenskrisen</h1>
+        <p>Wissenschaftlich fundierte Analyse • Normierte Gegenstrategien • Evidenzbasierter Praxisleitfaden</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">70%</div>
+            <div class="stat-label">Transformation-Fehlerrate</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">40+</div>
+            <div class="stat-label">Identifizierte Ursachen</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">2,1 Bio. €</div>
+            <div class="stat-label">Jährliche Kosten global</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">87%</div>
+            <div class="stat-label">Managementbedingt</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="visual-flow">
+            <h2>Eskalationsdynamik der Unternehmenskrise</h2>
+            <div class="flow-stages">
+                <div class="arrow"></div>
+                <div class="flow-stage">
+                    <div class="stage-box stage-1">
+                        <div class="stage-label">Früh</div>
+                        <div class="stage-desc">Vertrauensverlust<br>Informationsverzerrung</div>
+                    </div>
+                </div>
+                <div class="flow-stage">
+                    <div class="stage-box stage-2">
+                        <div class="stage-label">Strategisch</div>
+                        <div class="stage-desc">Realitätsferne<br>Marktdistanz</div>
+                    </div>
+                </div>
+                <div class="flow-stage">
+                    <div class="stage-box stage-3">
+                        <div class="stage-label">Operativ</div>
+                        <div class="stage-desc">Absatzrückgang<br>Ertragskrise</div>
+                    </div>
+                </div>
+                <div class="flow-stage">
+                    <div class="stage-box stage-4">
+                        <div class="stage-label">Kritisch</div>
+                        <div class="stage-desc">Liquiditätskrise<br>Insolvenzreife</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beide SVG-Grafiken nebeneinander, kleiner, lesbar -->
+
+        <div class="svg-row">
+            <div class="svg-box">
+                <h2>ISO 31000: Risikomanagement-Prozess (iterativer Zyklus)</h2>
+                <div class="svg-container">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 620 420"
+                         preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <marker id="arrow"
+                                    markerWidth="12"
+                                    markerHeight="12"
+                                    refX="10"
+                                    refY="6"
+                                    orient="auto">
+                                <path d="M0,0 L12,6 L0,12 Z"
+                                      fill="#2d3748" />
+                            </marker>
+                        </defs>
+
+                        <circle cx="310" cy="210" r="150"
+                                fill="none"
+                                stroke="#cbd5e0"
+                                stroke-width="3" />
+
+                        <text x="310" y="70"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Kontext bestimmen
+                        </text>
+                        <text x="500" y="150"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Risikoidentifikation
+                        </text>
+                        <text x="500" y="280"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Risikoanalyse &amp; -bewertung
+                        </text>
+                        <text x="310" y="360"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Risikobehandlung
+                        </text>
+                        <text x="120" y="280"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Überwachung &amp; Review
+                        </text>
+                        <text x="120" y="150"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Kommunikation &amp; Beratung
+                        </text>
+
+                        <line x1="310" y1="80" x2="480" y2="135"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                        <line x1="495" y1="165" x2="495" y2="265"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                        <line x1="480" y1="295" x2="310" y2="350"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                        <line x1="300" y1="350" x2="140" y2="295"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                        <line x1="125" y1="265" x2="125" y2="165"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                        <line x1="140" y1="135" x2="310" y2="80"
+                              stroke="#2d3748"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrow)" />
+                    </svg>
+                </div>
+                <p style="margin-top:16px; color:#718096; font-size:0.9rem;">
+                    Iterativer Prozess – kontinuierliche Anpassung an neue Risiken und Chancen (besonders relevant ab Revision 2025/26).
+                </p>
+            </div>
+
+            <div class="svg-box">
+                <h2>Bow-Tie-Analyse: Ursache – Risiko – Folgen</h2>
+                <div class="svg-container">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 780 340"
+                         preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <marker id="arrowbt"
+                                    markerWidth="10"
+                                    markerHeight="10"
+                                    refX="9"
+                                    refY="5"
+                                    orient="auto">
+                                <path d="M0,0 L10,5 L0,10 Z"
+                                      fill="#e53e3e" />
+                            </marker>
+                        </defs>
+
+                        <!-- Zentrales Top-Risiko -->
+                        <rect x="320" y="140" width="140" height="60" rx="6"
+                              fill="#fff5f5"
+                              stroke="#e53e3e"
+                              stroke-width="2" />
+                        <text x="390" y="168"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="13"
+                              fill="#742a2a">
+                            Ertragskrise
+                        </text>
+                        <text x="390" y="185"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="13"
+                              fill="#742a2a">
+                            Insolvenzreife
+                        </text>
+
+                        <!-- Ursachen links -->
+                        <text x="100" y="60"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Ursachen / Treiber
+                        </text>
+
+                        <line x1="220" y1="80" x2="340" y2="170"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="180" y="95"
+                              text-anchor="middle"
+                              font-size="12">
+                            Dysmemic Pressure
+                        </text>
+
+                        <line x1="220" y1="140" x2="340" y2="170"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="180" y="155"
+                              text-anchor="middle"
+                              font-size="12">
+                            Speak-Up-Versagen
+                        </text>
+
+                        <line x1="220" y1="200" x2="340" y2="170"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="180" y="215"
+                              text-anchor="middle"
+                              font-size="12">
+                            Realitätsverzerrung
+                        </text>
+
+                        <!-- Folgen rechts -->
+                        <text x="680" y="60"
+                              text-anchor="middle"
+                              font-weight="600"
+                              font-size="14">
+                            Mögliche Folgen
+                        </text>
+
+                        <line x1="460" y1="170" x2="580" y2="80"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="640" y="95"
+                              text-anchor="middle"
+                              font-size="12">
+                            Liquiditätsengpass
+                        </text>
+
+                        <line x1="460" y1="170" x2="580" y2="140"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="640" y="155"
+                              text-anchor="middle"
+                              font-size="12">
+                            Reputationsverlust
+                        </text>
+
+                        <line x1="460" y1="170" x2="580" y2="200"
+                              stroke="#e53e3e"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              style="filter: drop-shadow(0 0 1px #00000055);"
+                              marker-end="url(#arrowbt)" />
+                        <text x="640" y="215"
+                              text-anchor="middle"
+                              font-size="12">
+                            Marktaustritt
+                        </text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2><span class="icon">⚠</span>Destruktive Muster</h2>
+                <table class="pattern-table">
+                    <tr>
+                        <th>Beobachtetes Muster</th>
+                        <th>Mechanismus</th>
+                    </tr>
+                    <tr>
+                        <td><span class="warning-icon">→</span>Narrative vs. Realität</td>
+                        <td>Dysmemic Pressure</td>
+                    </tr>
+                    <tr>
+                        <td><span class="warning-icon">→</span>Führungsdistanz</td>
+                        <td>Agency-Problem</td>
+                    </tr>
+                    <tr>
+                        <td><span class="warning-icon">→</span>Kommunikative Lösungen</td>
+                        <td>Symbolisches Management</td>
+                    </tr>
+                    <tr>
+                        <td><span class="warning-icon">→</span>Kritik verstummt</td>
+                        <td>Speak-Up Versagen</td>
+                    </tr>
+                    <tr>
+                        <td><span class="warning-icon">→</span>Überraschungskollaps</td>
+                        <td>Frühwarnversagen</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">📊</span>Jim Collins: 5 Stufen des Niedergangs</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Hubris Born of Success</div>
+                            <div class="timeline-desc">Arroganz aus Erfolg</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Undisciplined Pursuit of More</div>
+                            <div class="timeline-desc">Disziplinlose Expansion</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Denial of Risk and Peril</div>
+                            <div class="timeline-desc">Risikoleugnung (äußerlich noch stark!)</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Grasping for Salvation</div>
+                            <div class="timeline-desc">Verzweifelter Aktionismus</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-number">5</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Capitulation to Irrelevance</div>
+                            <div class="timeline-desc">Kapitulation oder Tod</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">📋</span>Internationale Standards &amp; Frameworks</h2>
+                <div class="framework-grid">
+                    <div class="framework-item">
+                        <div class="framework-name">ISO 31000:2018 (Ed. 3 in Vorbereitung)</div>
+                        <div class="framework-desc">Integriertes Risikomanagement</div>
+                    </div>
+                    <div class="framework-item">
+                        <div class="framework-name">ISO 22316</div>
+                        <div class="framework-desc">Organisationale Resilienz</div>
+                    </div>
+                    <div class="framework-item">
+                        <div class="framework-name">COSO ERM</div>
+                        <div class="framework-desc">Enterprise Risk Management</div>
+                    </div>
+                    <div class="framework-item">
+                        <div class="framework-name">ISO 9001</div>
+                        <div class="framework-desc">Faktenbasierte Entscheidungen</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="icon">⚖</span>Deutsche Rechtspflichten</h2>
+                <div class="legal-list">
+                    <div class="legal-item">
+                        <span class="legal-code">§91 Abs.2 AktG</span>
+                        Risikofrüherkennungssystem
+                    </div>
+                    <div class="legal-item">
+                        <span class="legal-code">KonTraG</span>
+                        Bestandsgefährdende Risiken
+                    </div>
+                    <div class="legal-item">
+                        <span class="legal-code">IDW PS 340</span>
+                        Früherkennungsanforderungen
+                    </div>
+                    <div class="legal-item">
+                        <span class="legal-code">StaRUG</span>
+                        Präventive Restrukturierung
+                    </div>
+                    <div class="legal-item">
+                        <span class="legal-code">IDW S 6</span>
+                        Sanierungsgutachten
+                    </div>
+                    <div class="legal-item">
+                        <span class="legal-code">EU Restrukturierungsrichtlinie</span>
+                        Präventiver Rahmen
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><span class="icon">🔬</span>Wissenschaftliche Grundlagen &amp; Aktuelle Forschung (2024-2025)</h2>
+                <div class="models-section">
+                    <div class="model-item">
+                        <div class="model-title">Dysmemic Pressure Theory</div>
+                        <div class="model-author">McEntire, J. (Dezember 2025) • arXiv:2512.14716</div>
+                        <div class="model-desc">
+                            Fallstudien: Nokia, NASA Challenger, Wells Fargo. Formaler Mechanismus: Präferenzdivergenz zwischen Akteuren erzeugt stabile Gleichgewichte, in denen Kommunikation statistisch unabhängig von Realität wird. Reframed Dysfunktion von moralischem Versagen zu Physik-Problem – erklärt, warum Standardinterventionen (Kultur, Leadership-Development) scheitern.
+                        </div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-title">Ökonomische Modelle des Organisationsversagens</div>
+                        <div class="model-author">Garicano, L. &amp; Rayo, L. (2024) • Journal of Economic Literature</div>
+                        <div class="model-desc">
+                            Verbindet formale ökonomische Modelle mit empirischen Fallstudien. Integration von Informationsökonomik, Anreiztheorie und strategischer Kommunikation zur Erklärung organisationaler Fehlfunktion.
+                        </div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-title">Learning from Failure &amp; Capability Development</div>
+                        <div class="model-author">Tootoonchy, M. &amp; Clegg, S. (2025) • Journal of Organizational Change Management</div>
+                        <div class="model-desc">
+                            Positive Perspektive: Wie Organisationsversagen Sensemaking-Prozesse und neue organisationale Capabilities ermöglicht. Manageriale Kognition als zentrale Determinante.
+                        </div>
+                    </div>
+                    <div class="model-item">
+                        <div class="model-title">Systematische Ursachenanalyse (188 Studien Review)</div>
+                        <div class="model-author">Literature Review • 40 identifizierte Hauptursachen</div>
+                        <div class="model-desc">
+                            Multikausales Versagen: Strategische, operative und finanzielle Faktoren wirken in Kombination – selten monokausal. Governance, Führung, Kommunikation und externe Anpassung als zentrale Risikobereiche.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><span class="icon">🛡</span>Evidenzbasierte Gegenstrategien &amp; Interventionen</h2>
+                <div class="intervention-grid">
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">📢</div>
+                        <div class="intervention-title">Geschützte Hinweisgebersysteme</div>
+                        <div class="intervention-desc">Whistleblower-Kanäle, direkte Aufsichtslinien, psychologische Sicherheit</div>
+                    </div>
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">🔍</div>
+                        <div class="intervention-title">Externe Reality-Checks</div>
+                        <div class="intervention-desc">Unabhängige Reviews, Marktvalidierung, Third-Party Assessments</div>
+                    </div>
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">📊</div>
+                        <div class="intervention-title">Nicht-finanzielle Frühindikatoren</div>
+                        <div class="intervention-desc">Kulturmessungen, Mitarbeiterfeedback, Engagement-Metriken</div>
+                    </div>
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">🎭</div>
+                        <div class="intervention-title">Kultur-Audits</div>
+                        <div class="intervention-desc">Speak-Up-Kultur, Fehlertoleranz, konstruktiver Dissens</div>
+                    </div>
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">🔄</div>
+                        <div class="intervention-title">End-to-End Prozessverantwortung</div>
+                        <div class="intervention-desc">Silo-Überwindung, Gesamtverantwortung, horizontale Integration</div>
+                    </div>
+                    <div class="intervention-card">
+                        <div class="intervention-emoji">📈</div>
+                        <div class="intervention-title">Integrierte Mehrjahresplanung</div>
+                        <div class="intervention-desc">Gegen kurzfristigen Aktionismus, nachhaltige Strategien</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="tools-section">
+            <details>
+                <summary><small> [ausklappen] </small> — <strong>Tools & Krisen-Anker</strong> (Datengetriebene Ursachenanalyse)
+			<br><small>Fragekatalog zu aktueller Lage - Test zur Beurteilung destruktiver Entwicklungen in Ihrem Unternehmen.<br/>Bietet ggf. direkt konkrete nächste Schritte (angepasst an Mittelstand 50–500 MA, DACH).</small></br>
+		</summary>
+                <div class="bot-container">
+                    <h3>Krisen-Anker Bot – Mittelstands-Check (FMEA-inspiriert)</h3>
+                    <p>Beantworte die Fragen so genau wie möglich. Der Bot bewertet Frühwarnindikatoren (Umsatz, Fluktuation, Krankenstand, Tonfall, Engagement usw.) und gibt Ampel</p>
+                    <div id="bot-chat" class="bot-chat"></div>
+                    <div class="bot-input">
+                        <input id="user-input" type="text" placeholder="Deine Antwort eingeben...">
+                        <button onclick="submitAnswer()">Weiter</button>
+                    </div>
+                    <button class="bot-reset" onclick="resetBot()">Neustart</button>
+                    <div style="margin-top:20px; font-size:0.9rem; color:#718096;">
+                        Tipp: Zahlen direkt aus HR/BI/Kununu kopieren – je genauer, desto präziser die Analyse.
+                    </div>
+                </div>
+            </details>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <br/><h3>Geografischer & rechtlicher Fokus</h3>
+                <p>Deutschland • EU • DACH<br>§91 AktG, KonTraG, StaRUG, IDW PS 340/S 6</p>
+            </div>
+            <div class="footer-section">
+                <h3>Wissenschaft & Datenstand</h3>
+                <p>188+ Studien • Forschung 2024–2025<br>DACH-Krisenstudie 2025</p>
+            </div>
+            <div class="footer-section">
+                <h3>Praxisrelevanz</h3>
+                <p>60–87 % der Krisenursachen intern/managementbedingt<br>Frühe Diagnose möglich</p>
+            </div>
+        </div>
+        <div class="footer-note">
+            Integration von Theorie, Normen und aktueller Empirie zur Krisenprävention
+        </div>
+    </div>
+</div>
+
+<script>
+// Krisen-Anker Bot – FMEA-inspirierte, datengetriebene Logik
+
+const questions = [
+  "Wie viele Mitarbeiter hat dein Unternehmen ungefähr? (z. B. 80, 220, 450)",
+  "Wie hat sich der Umsatz in den letzten 12–24 Monaten entwickelt? (z. B. +8 %, –14 %, stagnierend)",
+  "Wie hoch ist die jährliche Fluktuationsrate / Kündigungsquote? (z. B. 18 %, 32 %)",
+  "Wie ist der durchschnittliche Krankenstand in den letzten 12 Monaten? (z. B. 5,2 %, 8,7 %)",
+  "Wie hoch ist der Anteil an Überstunden / geleisteten Mehrarbeitsstunden? (z. B. >20 %, 12–15 %)",
+  "Wie bewerten die Mitarbeiter den Arbeitgeber aktuell auf Kununu / Glassdoor? (z. B. 3,1/5, 2,4/5, Trend fallend)",
+  "Wie viele Mitarbeiter nehmen freiwillige Firmen-Events / After-Work-Aktivitäten regelmäßig wahr? (z. B. <20 %, ~40 %, >60 %)",
+  "Wie würdest du den aktuellen Tonfall / die Stimmung in internen Chats / Meetings beschreiben? (offen, gereizt, resignativ, motiviert)",
+  "Gibt es in den letzten 6–12 Monaten einen spürbaren Rückgang bei freiwilligem Engagement? (Ja/Nein + kurze Begründung)",
+  "Wie schätzt du die psychologische Sicherheit im Team ein? (1–10)",
+  "Gibt es wiederkehrende Fehler oder Verzögerungen in kritischen Prozessen? (Ja/Nein + Beispiel)",
+  "Wie hoch ist die Rate ungelöster Issues in Meetings / Tickets? (z. B. >30 %)",
+  "Gibt es Diskrepanz zwischen Plan- und Ist-Zahlen (z. B. Budget, Lieferzeiten)? (Ja/Nein + Größenordnung)",
+  "Gibt es externe Frühwarnsignale? (z. B. sinkende Auftragseingänge, längere Zahlungsziele)",
+  "Welches ist aktuell das größte spürbare Problem im Unternehmen? (offene Antwort)"
+];
+
+let step = 0;
+let answers = [];
+
+function initBot() {
+  resetBot();   // zeigt die erste Frage EINMAL an
+}
+
+function appendMessage(sender, message) {
+  const chat = document.getElementById('bot-chat');
+  const div = document.createElement('div');
+  div.className = sender === 'bot' ? 'bot-message' : 'user-message';
+  div.textContent = message;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function submitAnswer() {
+  const input = document.getElementById('user-input').value.trim();
+  if (!input) return;
+
+  appendMessage('user', input);
+  answers.push(input);
+
+  step++;
+
+  if (step < questions.length) {
+    appendMessage('bot', questions[step]);
+  } else {
+    analyze();
+  }
+
+  document.getElementById('user-input').value = '';
+}
+
+function analyze() {
+  let score = 0;
+  let messages = [];
+
+  const ma = parseInt(answers[0]) || 150;
+  messages.push(`Kontext: Mittelständisches Unternehmen mit ca. ${ma} Mitarbeitern.`);
+
+  const umsatz = answers[1].toLowerCase();
+  if (umsatz.includes('-') || umsatz.includes('rückgang') || umsatz.includes('minus')) {
+    score -= 4;
+    messages.push('→ Umsatzrückgang = starkes Warnsignal');
+  }
+
+  const fluk = parseFloat(answers[2]) || 0;
+  if (fluk > 25) {
+    score -= 5;
+    messages.push('→ Sehr hohe Fluktuation (>25 %) – akut kritisch');
+  } else if (fluk > 15) {
+    score -= 3;
+    messages.push('→ Erhöhte Fluktuation – Beobachtung nötig');
+  }
+
+  const krank = parseFloat(answers[3]) || 0;
+  if (krank > 7) {
+    score -= 4;
+    messages.push('→ Hoher Krankenstand (>7 %) – Belastungssymptom');
+  }
+
+  if (answers[4].toLowerCase().includes('>20') || answers[4].includes('viel')) {
+    score -= 3;
+    messages.push('→ Hohe Überstunden – Burnout-Risiko');
+  }
+
+  const kununu = answers[5].toLowerCase();
+  if (kununu.includes('2.') || kununu.includes('unter 3') || kununu.includes('fallend')) {
+    score -= 4;
+    messages.push('→ Schlechte / fallende Bewertungen – Reputations- & Kulturproblem');
+  }
+
+  const events = answers[6].toLowerCase();
+  if (events.includes('<20') || events.includes('wenig')) {
+    score -= 3;
+    messages.push('→ Geringe Teilnahme – schwaches Engagement');
+  }
+
+  const ton = answers[7].toLowerCase();
+  if (ton.includes('gereizt') || ton.includes('resign') || ton.includes('negativ')) {
+    score -= 4;
+    messages.push('→ Gereizter / negativer Ton – kulturelles Warnsignal');
+  }
+
+  if (answers[8].toLowerCase().includes('ja')) {
+    score -= 3;
+    messages.push('→ Rückgang freiwilliges Engagement – Alarmsignal');
+  }
+
+  const sicherheit = parseInt(answers[9]) || 5;
+  if (sicherheit < 5) {
+    score -= 4;
+    messages.push('→ Niedrige psychologische Sicherheit – Kommunikationsblockade');
+  }
+
+  if (answers[10].toLowerCase().includes('ja')) score -= 2;
+  if (answers[11].toLowerCase().includes('>30')) score -= 2;
+  if (answers[12].toLowerCase().includes('ja')) score -= 2;
+  if (answers[13].toLowerCase().includes('sinkend') || answers[13].includes('länger')) score -= 2;
+
+  let status = '🟢 Stabil';
+  let empfehlung = 'Keine akuten systemischen Warnsignale. Weiter beobachten.';
+
+  if (score <= -14) {
+    status = '🔴 Kritisch – dringender Handlungsbedarf';
+    empfehlung = 'Sofort: Anonyme Befragung starten, Exit-Interviews auswerten, FMEA-ähnliche Fehlerketten-Analyse durchführen, externe Moderation einbeziehen.';
+  } else if (score <= -6) {
+    status = '🟡 Gelb – erhöhte Aufmerksamkeit nötig';
+    empfehlung = 'Nächste Schritte: Puls-Umfragen einführen, Fluktuations- & Krankenstands-Analyse vertiefen, Maßnahmen gegen Überlastung & negativen Ton starten.';
+  }
+
+  const output = [
+    `Analyse-Ergebnis: ${status} (Score: ${score})`,
+    ...messages,
+    '',
+    `Empfehlung: ${empfehlung}`
+  ].join('\n');
+
+  appendMessage('bot', output);
+}
+
+function resetBot() {
+  step = 0;
+  answers = [];
+  document.getElementById('bot-chat').innerHTML = '';
+  document.getElementById('user-input').value = '';
+  appendMessage('bot', questions[0]); // einzige Ausgabe der ersten Frage
+}
+
+window.onload = initBot;
+</script>
